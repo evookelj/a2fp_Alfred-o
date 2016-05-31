@@ -1,3 +1,9 @@
 2016-05-31
 EV, Busy B, JD
 Wrote initial draft of plan (outline),
+
+2016-05-31
+EV
+Began classes TileNode and Mahjong (before quickly realizing much more
+diagramming is to be done about how different Objects are interacting
+before code can be started.
