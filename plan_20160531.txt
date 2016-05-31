@@ -1,0 +1,11 @@
+Team Alfred-o: EV, Busy B, JDong
+PLAN_20160531
+
+PLAN (as of 2016-05-31):
+1. Write an initial version of TileNode class. **** 
+2. Write Board class, holding the board through the `ArrayList<TileNode[][]>`
+   and the `top` `ArrayList` of uncovered `TileNode`s.
+3. Write Game class to run turns and the like.
+4. Make some bomb diggity graphics.
+
+N: Throughout steps 1-3, implement basic graphics.
