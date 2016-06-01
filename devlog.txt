@@ -7,3 +7,8 @@ EV
 Began classes TileNode and Mahjong (before quickly realizing much more
 diagramming is to be done about how different Objects are interacting
 before code can be started.
+
+2016-06-01
+WB
+Begin Board class and tweak TileNode. Also write primitive, basic,
+grossly-structured graphical methods to see/show what is going on.
