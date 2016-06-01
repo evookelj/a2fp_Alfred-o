@@ -35,6 +35,8 @@ class Board {
         _map.get(mapLayer)[i][j] = node;
       }
     }
+    // Inform all the tiles occupying these spaces in lower layers that
+    // they've been covered:
     for (int layer = mapLayer - 1; layer >= 0; layer--) {
       for (int i = tlRow; i < tlRow + TileNode.gridWidth; i++) {
         for (int j = tlCol; j < tlCol + TileNode.gridHeight; j++) {
