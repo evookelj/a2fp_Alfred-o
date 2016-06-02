@@ -1,14 +1,14 @@
 public class TileNode {
-  public static final int gridWidth = 2;
-  public static final int gridHeight = 3;
+  public static final int gridWidth = 2; //width it takes up in grid
+  public static final int gridHeight = 3; //height it takes up in grid
 
-  private ArrayList<TileNode> _top;
+  private ArrayList<TileNode> _top; 
   private ArrayList<TileNode> _beneathMe;
   private int _aboveMe;
   private PImage _pic;
 
-  private int _tlRow;
-  private int _tlCol;
+  private int _tlRow; //row of topleft corner
+  private int _tlCol; //col of topleft corner
 
   public TileNode(PImage pic, ArrayList<TileNode> top) {
     _pic = pic;
@@ -24,12 +24,10 @@ public class TileNode {
   }
 
   public void jankDraw() {
-    rect((float) Board.gridCellPx * _tlCol, (float) Board.gridCellPx * _tlRow, (float) Board.gridCellPx * 2, (float) Board.gridCellPx * 3);
+    rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3);
   }
 
-  public void incAboveMe() {
-    _aboveMe += 1;
-  }
+  public void incAboveMe() { _aboveMe += 1; }
 
   public void decAboveMe() {
     _aboveMe -= 1;
@@ -38,7 +36,5 @@ public class TileNode {
     }
   }
 
-  public ArrayList<TileNode> getBeneathMe() {
-    return _beneathMe;
-  }
+  public ArrayList<TileNode> getBeneathMe() { return _beneathMe; }
 }

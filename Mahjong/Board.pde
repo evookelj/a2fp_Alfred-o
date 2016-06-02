@@ -1,16 +1,17 @@
 class Board {
-  public static final int gridCellPx = 5; // Each cell 5px X 5px
+  public static final int gridCellPx = 20; //Size of grid cells
 
   private ArrayList<TileNode> _top;
   private ArrayList<TileNode[][]> _map;
   private int mapGridCols;
   private int mapGridRows;
 
-  public Board(int width, int height) {
+  public Board(int w, int h) {
     _top = new ArrayList<TileNode>();
     _map = new ArrayList<TileNode[][]>();
-    mapGridCols = width;
-    mapGridRows = height;
+    //amount of cols/rows in grid to hold tiles (of aXb size)
+    mapGridCols = w;
+    mapGridRows = h;
   }
 
   public void fillBottomTiles() {

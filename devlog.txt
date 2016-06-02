@@ -12,3 +12,8 @@ before code can be started.
 WB
 Begin Board class and tweak TileNode. Also write primitive, basic,
 grossly-structured graphical methods to see/show what is going on.
+
+2016-06-01
+EV
+Added comments to Board and TileNode classes so that very nuanced variables
+would make sense to all involved (ergo making the code more processible).
