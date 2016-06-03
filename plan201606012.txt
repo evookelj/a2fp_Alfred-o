@@ -1,6 +1,7 @@
 PLAN as of 2016-06-02:
 
--Implement selecting tiles/not being able to select covered tiles.
+-Implement selecting tiles.
+-Implement not being able to select covered tiles.
 -Implement not being able to select surrounded tiles.
 -Implement selecting two tiles and proper removal.
 -Implement matching.
