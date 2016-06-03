@@ -5,13 +5,13 @@ public class TileNode {
   private ArrayList<TileNode> _top; 
   private ArrayList<TileNode> _beneathMe;
   private int _aboveMe;
-  private PImage _pic;
+  private color _color;
 
   private int _tlRow; //row of topleft corner
   private int _tlCol; //col of topleft corner
 
-  public TileNode(PImage pic, ArrayList<TileNode> top) {
-    _pic = pic;
+  public TileNode(color c, ArrayList<TileNode> top) {
+    _color = c;
     _top = top;
     _beneathMe = new ArrayList<TileNode>();
   }

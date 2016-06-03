@@ -19,8 +19,8 @@ class Board {
       _map.add(new TileNode[mapGridRows][mapGridCols]);
     }
     int mapLayer = 0;
-    for (int i = 0; i < mapGridRows / TileNode.gridWidth; i += TileNode.gridHeight) {
-      for (int j = 0; j < mapGridCols / TileNode.gridHeight; j += TileNode.gridWidth) {
+    for (int i = 0; i < mapGridRows; i += TileNode.gridHeight) {
+      for (int j = 0; j < mapGridCols; j += TileNode.gridWidth) {
         TileNode tile = new TileNode(_top, i, j);
         addTileAt(tile, i, j, mapLayer);
         _top.add(tile);
@@ -31,20 +31,22 @@ class Board {
 
   // Add a vertically oriented TileNode at grid position row tlRow, column tlCol
   private void addTileAt(TileNode node, int tlRow, int tlCol, int mapLayer) {
-    for (int i = tlRow; i < tlRow + TileNode.gridWidth; i++) {
-      for (int j = tlCol; j < tlCol + TileNode.gridHeight; j++) {
+    for (int i = tlRow; i < tlRow + TileNode.gridHeight && i < mapGridRows; i++) {
+      for (int j = tlCol; j < tlCol + TileNode.gridWidth && i < mapGridCols; j++) {
         _map.get(mapLayer)[i][j] = node;
       }
     }
     // Inform all the tiles occupying these spaces in lower layers that
     // they've been covered:
     for (int layer = mapLayer - 1; layer >= 0; layer--) {
-      for (int i = tlRow; i < tlRow + TileNode.gridWidth; i++) {
-        for (int j = tlCol; j < tlCol + TileNode.gridHeight; j++) {
+      for (int i = tlRow; i < tlRow + TileNode.gridHeight; i++) {
+        for (int j = tlCol; j < tlCol + TileNode.gridWidth; j++) {
           TileNode lowerTile = _map.get(mapLayer)[i][j];
-          lowerTile.incAboveMe();
-          _top.remove(lowerTile);
-          node.getBeneathMe().add(lowerTile);
+          if (lowerTile != null) {
+            lowerTile.incAboveMe();
+            _top.remove(lowerTile);
+            node.getBeneathMe().add(lowerTile);
+          }
         }
       }
     }

@@ -2,7 +2,7 @@ Board b;
 
 void setup() {
   size(600, 800);
-  b = new Board(20, 30);
+  b = new Board(30, 20);
   b.fillBottomTiles();
   b.addLayer();
   b.addTileTopLayer(5, 3);
