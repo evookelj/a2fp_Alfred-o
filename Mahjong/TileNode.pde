@@ -27,7 +27,12 @@ public class TileNode {
     rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3);
   }
 
-  public void incAboveMe() { _aboveMe += 1; }
+  public void incAboveMe() {
+    if (_aboveMe == 0) {
+      _top.remove(this);
+    }
+    _aboveMe += 1;
+  }
 
   public void decAboveMe() {
     _aboveMe -= 1;
