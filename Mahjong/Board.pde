@@ -36,18 +36,20 @@ class Board {
         _map.get(mapLayer)[i][j] = node;
       }
     }
-    // Inform all the tiles occupying these spaces in lower layers that
-    // they've been covered:
+    // Add all the tiles occupying these spaces in lower layers to _beneathMe
     for (int layer = mapLayer - 1; layer >= 0; layer--) {
       for (int i = tlRow; i < tlRow + TileNode.gridHeight; i++) {
         for (int j = tlCol; j < tlCol + TileNode.gridWidth; j++) {
           TileNode lowerTile = _map.get(mapLayer)[i][j];
           if (lowerTile != null) {
-            lowerTile.incAboveMe();
             node.getBeneathMe().add(lowerTile);
           }
         }
       }
+    }
+    // Inform all these tiles in _beneathMe that they are covered
+    for (TileNode lower: node.getBeneathMe()) {
+      lower.incAboveMe();
     }
   }
 
