@@ -41,7 +41,7 @@ class Board {
       for (int i = tlRow; i < tlRow + TileNode.gridHeight; i++) {
         for (int j = tlCol; j < tlCol + TileNode.gridWidth; j++) {
           TileNode lowerTile = _map.get(mapLayer)[i][j];
-          if (lowerTile != null) {
+          if (lowerTile != null && !node.getBeneathMe().contains(lowerTile)) {
             node.getBeneathMe().add(lowerTile);
           }
         }
