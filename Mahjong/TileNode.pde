@@ -1,4 +1,4 @@
-public class TileNode {
+class TileNode {
   public static final int gridWidth = 2; //width it takes up in grid
   public static final int gridHeight = 3; //height it takes up in grid
 
@@ -24,12 +24,17 @@ public class TileNode {
   }
 
   public void jankDraw() {
-    if (_aboveMe > 0) {
+    if (_aboveMe <= 0) {
       fill(color(255, 0, 0));
     } else {
       fill(color(255, 255, 255));
     }
     rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3);
+  }
+  
+  public void selectDraw() {
+    stroke(color(225,225,225));
+    this.jankDraw();
   }
 
   public void incAboveMe() {
@@ -46,5 +51,7 @@ public class TileNode {
     }
   }
 
-  public ArrayList<TileNode> getBeneathMe() { return _beneathMe; }
+  public ArrayList<TileNode> getBeneathMe() { 
+    return _beneathMe;
+  }
 }
