@@ -1,5 +1,6 @@
 Board b;
-TileNode selected;
+TileNode selectA;
+TileNode selectB;
 
 void setup() {
   size(600, 800);
@@ -16,8 +17,11 @@ void draw() {
   fill(color(255, 255, 255));
   stroke(color(0, 255, 0));
   b.jankDraw();
-  if (selected != null) {
-    selected.selectDraw();
+  if (selectA != null) {
+    selectA.selectDraw();
+  }
+  if (selectB != null) {
+    selectB.selectDraw();
   }
 }
 
@@ -25,8 +29,18 @@ void mouseClicked() {
   int r = mouseY/b.gridCellPx;
   int c = mouseX/b.gridCellPx;
   for (int layer = b._map.size()-1; layer>=0; layer--) {
-    if ((b._map.get(layer) != null) && (b._map.get(layer)[r][c] != null)) {
-      selected = (b._map.get(layer)[r][c]);
+    TileNode[][] temp = b._map.get(layer);
+    if ((temp != null) && 
+      (temp[r][c] != null) &&
+      (!(b.isSurrounded(layer, r, c))) &&
+      (b._top.contains(temp[r][c]))) {
+      if (selectA == null) { 
+        selectA = (b._map.get(layer)[r][c]);
+      } else { 
+        selectB = (b._map.get(layer)[r][c]);
+        selectA = null;
+        selectB = null;
+      }
       return ;
     }
   }

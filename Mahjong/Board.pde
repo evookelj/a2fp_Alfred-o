@@ -14,6 +14,36 @@ class Board {
     mapGridRows = h;
   }
 
+  public boolean isSurrounded(int layer, int r, int c) {
+    int around = 0;
+    TileNode[][] temp = b._map.get(layer);
+    if (temp != null) {
+      around = 0;
+      //check above
+      if ((r > TileNode.gridHeight) && 
+        (temp[r-TileNode.gridHeight][c] != null)) {
+        around+=1;
+      } 
+      //check below
+      if ((r < temp.length - TileNode.gridHeight) && 
+        (temp[r+TileNode.gridHeight][c] != null)) {
+        around+=1;
+      } 
+      //check left
+      if ((c > TileNode.gridWidth) && 
+        (temp[r][c-TileNode.gridWidth] != null)) {
+        around+=1;
+      }
+      //check right
+      if ((c < temp[r].length - TileNode.gridWidth) && 
+        (temp[r][r+TileNode.gridWidth] != null)) {
+        around+=1;
+      }
+      return around == 4;
+    }
+    return around == 4;
+  }
+
   public void fillBottomTiles() {
     if (_map.isEmpty()) {
       _map.add(new TileNode[mapGridRows][mapGridCols]);
@@ -26,7 +56,6 @@ class Board {
         _top.add(tile);
       }
     }
-    
   }
 
   // Add a vertically oriented TileNode at grid position row tlRow, column tlCol
@@ -48,7 +77,7 @@ class Board {
       }
     }
     // Inform all these tiles in _beneathMe that they are covered
-    for (TileNode lower: node.getBeneathMe()) {
+    for (TileNode lower : node.getBeneathMe()) {
       lower.incAboveMe();
     }
   }
@@ -65,7 +94,7 @@ class Board {
   }
 
   public void jankDraw() {
-    for (TileNode[][] layer: _map) {
+    for (TileNode[][] layer : _map) {
       for (int i = 0; i < layer.length; i++) {
         for (int j = 0; j < layer[i].length; j++) {
           if (layer[i][j] != null) {

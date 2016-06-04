@@ -20,5 +20,5 @@ would make sense to all involved (ergo making the code more processible).
 
 2016-06-03
 EV
-Implemented basic tile selecting ability (that does not yet take into account
-requirements for selecting a tile.
+Implemented basic tile selecting ability. Can now select two tiles. Only
+selects tiles that are on the top and are not surrounded.
