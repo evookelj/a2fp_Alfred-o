@@ -34,7 +34,9 @@ class TileNode {
   
   public void selectDraw() {
     stroke(color(225,225,225));
+    strokeWeight(4);
     this.jankDraw();
+    strokeWeight(1);
   }
 
   public void incAboveMe() {

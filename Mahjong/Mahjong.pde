@@ -24,8 +24,8 @@ void draw() {
 void mouseClicked() {
   int r = mouseY/b.gridCellPx;
   int c = mouseX/b.gridCellPx;
-  for (int layer = b._map.size()-2; layer>=0; layer++) {
-    if (b._map.get(layer)[r][c] != null) {
+  for (int layer = b._map.size()-1; layer>=0; layer--) {
+    if ((b._map.get(layer) != null) && (b._map.get(layer)[r][c] != null)) {
       selected = (b._map.get(layer)[r][c]);
       return ;
     }
