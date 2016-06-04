@@ -7,6 +7,8 @@ void setup() {
   b.addLayer();
   b.addTileTopLayer(5, 3);
   b.addTileTopLayer(7, 1);
+  b.addTileTopLayer(2, 11);
+  b.addTileTopLayer(16, 17);
 }
 void draw() {
   clear();
