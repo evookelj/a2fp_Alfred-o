@@ -24,6 +24,11 @@ public class TileNode {
   }
 
   public void jankDraw() {
+    if (_aboveMe > 0) {
+      fill(color(255, 0, 0));
+    } else {
+      fill(color(255, 255, 255));
+    }
     rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3);
   }
 
