@@ -35,11 +35,12 @@ void mouseClicked() {
       (!(b.isSurrounded(layer, r, c))) &&
       (b._top.contains(temp[r][c]))) {
       if (selectA == null) { 
-        selectA = (b._map.get(layer)[r][c]);
+        selectA = (temp[r][c]);
       } else { 
-        selectB = (b._map.get(layer)[r][c]);
-        selectA = null;
-        selectB = null;
+        if (selectA._color == temp[r][c]._color) {
+          selectB = (temp[r][c]);
+          b.remove(selectA, selectB);
+        }
       }
       return ;
     }

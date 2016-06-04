@@ -6,7 +6,6 @@ class TileNode {
   private ArrayList<TileNode> _beneathMe;
   private int _aboveMe;
   private color _color;
-
   private int _tlRow; //row of topleft corner
   private int _tlCol; //col of topleft corner
 
@@ -16,10 +15,11 @@ class TileNode {
     _beneathMe = new ArrayList<TileNode>();
   }
 
-  public TileNode(ArrayList<TileNode> top, int tlRow, int tlCol) {
+  public TileNode(ArrayList<TileNode> top, int tlRow, int tlCol, color c) {
     _top = top;
     _tlRow = tlRow;
     _tlCol = tlCol;
+    _color = c;
     _beneathMe = new ArrayList<TileNode>();
   }
 
@@ -27,7 +27,7 @@ class TileNode {
     if (_aboveMe <= 0) {
       fill(color(255, 0, 0));
     } else {
-      fill(color(255, 255, 255));
+      fill(_color);
     }
     rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3);
   }
