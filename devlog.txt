@@ -17,3 +17,8 @@ grossly-structured graphical methods to see/show what is going on.
 EV
 Added comments to Board and TileNode classes so that very nuanced variables
 would make sense to all involved (ergo making the code more processible).
+
+2016-06-03
+EV
+Implemented basic tile selecting ability (that does not yet take into account
+requirements for selecting a tile.
