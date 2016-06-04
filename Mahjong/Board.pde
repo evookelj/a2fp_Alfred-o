@@ -44,7 +44,6 @@ class Board {
           TileNode lowerTile = _map.get(mapLayer)[i][j];
           if (lowerTile != null) {
             lowerTile.incAboveMe();
-            _top.remove(lowerTile);
             node.getBeneathMe().add(lowerTile);
           }
         }
