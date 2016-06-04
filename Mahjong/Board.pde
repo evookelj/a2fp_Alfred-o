@@ -64,8 +64,14 @@ class Board {
   }
 
   public void jankDraw() {
-    for (TileNode tile: _top) {
-      tile.jankDraw();
+    for (TileNode[][] layer: _map) {
+      for (int i = 0; i < layer.length; i++) {
+        for (int j = 0; j < layer[i].length; j++) {
+          if (layer[i][j] != null) {
+            layer[i][j].jankDraw();
+          }
+        }
+      }
     }
   }
 }
