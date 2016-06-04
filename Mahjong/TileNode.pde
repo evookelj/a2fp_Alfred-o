@@ -24,16 +24,12 @@ class TileNode {
   }
 
   public void jankDraw() {
-    if (_aboveMe <= 0) {
-      fill(color(255, 0, 0));
-    } else {
-      fill(_color);
-    }
+    fill(_color);
     rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3);
   }
-  
+
   public void selectDraw() {
-    stroke(color(225,225,225));
+    stroke(color(225, 225, 225));
     strokeWeight(4);
     this.jankDraw();
     strokeWeight(1);
@@ -56,4 +52,7 @@ class TileNode {
   public ArrayList<TileNode> getBeneathMe() { 
     return _beneathMe;
   }
+  
+  public int getRow() { return _tlRow; }
+  public int getCol() { return _tlCol; }
 }

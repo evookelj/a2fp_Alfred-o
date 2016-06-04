@@ -1,4 +1,5 @@
 Board b;
+int layerA;
 TileNode selectA;
 TileNode selectB;
 
@@ -36,10 +37,13 @@ void mouseClicked() {
       (b._top.contains(temp[r][c]))) {
       if (selectA == null) { 
         selectA = (temp[r][c]);
+        layerA = layer;
       } else { 
         if (selectA._color == temp[r][c]._color) {
           selectB = (temp[r][c]);
-          b.remove(selectA, selectB);
+          b.remove(layerA, layer, selectA, selectB);
+          selectA = null;
+          selectB = null;
         }
       }
       return ;

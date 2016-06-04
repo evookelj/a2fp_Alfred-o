@@ -13,9 +13,27 @@ class Board {
     mapGridCols = w;
     mapGridRows = h;
   }
-  
-  public void remove(TileNode a, TileNode b) {
-    if (a._color != b._color) {}
+
+  public void remove(int layerA, int layerB, TileNode a, TileNode b) {
+    for (TileNode t : a.getBeneathMe()) { 
+      t.decAboveMe();
+    }
+    for (TileNode t : b.getBeneathMe()) { 
+      t.decAboveMe();
+    }
+    _top.remove(a);
+    _top.remove(b);
+    //remove all traces of selectA in _map
+    for (int i=a.getRow(); i<= a.getRow() + TileNode.gridHeight; i++) {
+      for (int j=a.getCol(); j<= a.getCol() + TileNode.gridWidth; j++) {
+        _map.get(layerA)[i][j] = null;
+      }
+    }
+    for (int i=b.getRow(); i<= b.getRow() + TileNode.gridHeight; i++) {
+      for (int j= b.getCol(); j<= b.getCol() + TileNode.gridWidth; j++) {
+        _map.get(layerB)[i][j] = null;
+      }
+    }
   }
 
   public boolean isSurrounded(int layer, int r, int c) {
@@ -55,7 +73,7 @@ class Board {
     int mapLayer = 0;
     for (int i = 0; i < mapGridRows; i += TileNode.gridHeight) {
       for (int j = 0; j < mapGridCols; j += TileNode.gridWidth) {
-        TileNode tile = new TileNode(_top, i, j, color(225,225,225));
+        TileNode tile = new TileNode(_top, i, j, color(225, 225, 225));
         addTileAt(tile, i, j, mapLayer);
         _top.add(tile);
       }
@@ -88,7 +106,7 @@ class Board {
 
   public void addTileTopLayer(int tlRow, int tlCol) {
     int mapLayer = _map.size() - 1;
-    TileNode tile = new TileNode(_top, tlRow, tlCol, color(255,255,255));
+    TileNode tile = new TileNode(_top, tlRow, tlCol, color(255, 255, 255));
     addTileAt(tile, tlRow, tlCol, mapLayer);
     _top.add(tile);
   }
