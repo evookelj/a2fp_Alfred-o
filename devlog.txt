@@ -22,3 +22,8 @@ would make sense to all involved (ergo making the code more processible).
 EV
 Implemented tile selection and removal with conditions that both are on top,
 not surrounded, and are of the same color.
+
+2016-06-05
+EV
+Made it so tile can't be selected with itself. Also allowed de-selection of
+a tile (by clicking it twice).
