@@ -39,7 +39,8 @@ void mouseClicked() {
         selectA = (temp[r][c]);
         layerA = layer;
       } else { 
-        if (selectA._color == temp[r][c]._color) {
+        if ((selectA._color == temp[r][c]._color)
+        && (temp[r][c] != selectA)) {
           selectB = (temp[r][c]);
           b.remove(layerA, layer, selectA, selectB);
           selectA = null;
