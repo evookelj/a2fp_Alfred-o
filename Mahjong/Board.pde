@@ -115,10 +115,10 @@ class Board {
     _map.add(new TileNode[mapGridRows][mapGridCols]);
   }
 
-  public void jankDraw() {
+  public void drawTiles() {
     for (TileNode[][] layer : _map) {
-      for (int i = 0; i < layer.length; i++) {
-        for (int j = 0; j < layer[i].length; j++) {
+      for (int i = 0; i < layer.length; i += TileNode.gridHeight) {
+        for (int j = 0; j < layer[i].length; j += TileNode.gridWidth) {
           if (layer[i][j] != null) {
             layer[i][j].jankDraw();
           }

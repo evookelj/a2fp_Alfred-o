@@ -17,7 +17,7 @@ void draw() {
   fill(color(245, 245, 220));
   rect(0, 0, width, height);
   fill(color(255, 255, 255));
-  b.jankDraw();
+  b.drawTiles();
   if (selectA != null) {
     selectA.selectDraw();
   }
