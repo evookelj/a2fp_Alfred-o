@@ -4,8 +4,8 @@ TileNode selectA;
 TileNode selectB;
 
 void setup() {
-  size(600, 800);
-  b = new Board(30, 20);
+  size(600, 420);
+  b = new Board(width / 20, height / 20);
   b.fillBottomTiles();
   b.addLayer();
   b.addTileTopLayer(5, 3);
