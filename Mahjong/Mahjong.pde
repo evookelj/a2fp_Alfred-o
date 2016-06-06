@@ -14,9 +14,9 @@ void setup() {
   b.addTileTopLayer(16, 17);
 }
 void draw() {
-  clear();
+  fill(color(245, 245, 220));
+  rect(0, 0, width, height);
   fill(color(255, 255, 255));
-  stroke(color(0, 255, 0));
   b.jankDraw();
   if (selectA != null) {
     selectA.selectDraw();
