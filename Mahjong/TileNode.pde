@@ -25,11 +25,11 @@ class TileNode {
 
   public void jankDraw() {
     fill(_color);
+    stroke(color(0, 0, 0));
     rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3, 8.0);
   }
 
   public void selectDraw() {
-    stroke(color(0, 0, 225));
     strokeWeight(4);
     this.jankDraw();
     strokeWeight(1);
