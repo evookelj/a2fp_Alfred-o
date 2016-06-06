@@ -24,13 +24,13 @@ class Board {
     _top.remove(a);
     _top.remove(b);
     //remove all traces of selectA in _map
-    for (int i=a.getRow(); i<= a.getRow() + TileNode.gridHeight; i++) {
-      for (int j=a.getCol(); j<= a.getCol() + TileNode.gridWidth; j++) {
+    for (int i = a.getRow(); i < a.getRow() + TileNode.gridHeight; i++) {
+      for (int j = a.getCol(); j < a.getCol() + TileNode.gridWidth; j++) {
         _map.get(layerA)[i][j] = null;
       }
     }
-    for (int i=b.getRow(); i<= b.getRow() + TileNode.gridHeight; i++) {
-      for (int j= b.getCol(); j<= b.getCol() + TileNode.gridWidth; j++) {
+    for (int i = b.getRow(); i < b.getRow() + TileNode.gridHeight; i++) {
+      for (int j = b.getCol(); j < b.getCol() + TileNode.gridWidth; j++) {
         _map.get(layerB)[i][j] = null;
       }
     }
