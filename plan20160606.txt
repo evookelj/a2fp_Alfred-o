@@ -1,0 +1,10 @@
+PLAN as of 2016-06-06:
+
+-Get collection of tile images.
+-Incorporate images into tiles.
+-Implement puzzle generator.
+-Score sidebar (in-game).
+-Make graphics less gross.
+-Main menu
+
+Potentially, an UNDO mechanism, but this type of cowardice upsets us so maybe not.
