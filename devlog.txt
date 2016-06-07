@@ -27,3 +27,11 @@ not surrounded, and are of the same color.
 EV
 Made it so tile can't be selected with itself. Also allowed de-selection of
 a tile (by clicking it twice).
+
+2016-06-06
+EV
+Add pics to data for tile design
+
+2016-06-07
+EV, Busy B, JD
+Start incorporating tile designs into game (and try to debug)
