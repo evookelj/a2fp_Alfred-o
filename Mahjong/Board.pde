@@ -66,6 +66,7 @@ class Board {
     return around == 4;
   }
 
+/*
   public void fillBottomTiles() {
     if (_map.isEmpty()) {
       _map.add(new TileNode[mapGridRows][mapGridCols]);
@@ -79,6 +80,7 @@ class Board {
       }
     }
   }
+  */
 
   // Add a vertically oriented TileNode at grid position row tlRow, column tlCol
   private void addTileAt(TileNode node, int tlRow, int tlCol, int mapLayer) {
@@ -104,9 +106,9 @@ class Board {
     }
   }
 
-  public void addTileTopLayer(int tlRow, int tlCol) {
+  public void addTileTopLayer(int tlRow, int tlCol, String p) {
     int mapLayer = _map.size() - 1;
-    TileNode tile = new TileNode(_top, tlRow, tlCol, color(255, 255, 255));
+    TileNode tile = new TileNode(_top, tlRow, tlCol, p);
     addTileAt(tile, tlRow, tlCol, mapLayer);
     _top.add(tile);
   }
