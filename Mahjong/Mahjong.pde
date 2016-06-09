@@ -2,22 +2,23 @@ Board b;
 TileNode selectedTile;
 
 void setup() {
-  size(600, 420);
-  b = new Board(width / 20, height / 20);
+  size(600, 450);
+  b = new Board(width / Board.gridCellWidth, height / Board.gridCellHeight);
   b.addLayer();
 
   b.addTileTopLayer(5, 3, "0.png");
-  b.addTileTopLayer(7, 1, "0.png");
-  b.addTileTopLayer(7, 5, "0.png");
-  b.addTileTopLayer(8, 3, "0.png");
+  b.addTileTopLayer(6, 1, "0.png");
+  b.addTileTopLayer(6, 5, "0.png");
+  b.addTileTopLayer(7, 3, "0.png");
   b.addTileTopLayer(2, 11, "1.png");
-  b.addTileTopLayer(16, 17, "1.png");
+  b.addTileTopLayer(10, 17, "1.png");
 }
 
 void draw() {
   fill(color(245, 245, 220));
-  stroke(color(0, 0, 0));
+  noStroke();
   rect(0, 0, width, height);
+  stroke(color(0, 0, 0));
   fill(color(255, 255, 255));
   b.drawTiles();
   if (selectedTile != null) {
@@ -26,8 +27,8 @@ void draw() {
 }
 
 void mouseClicked() {
-  int r = mouseY / Board.gridCellPx;
-  int c = mouseX / Board.gridCellPx;
+  int r = mouseY / Board.gridCellHeight;
+  int c = mouseX / Board.gridCellWidth;
   for (int layerIndex = b._map.size()-1; layerIndex >= 0; layerIndex--) {
     TileNode[][] layerTiles = b._map.get(layerIndex);
     if (layerTiles[r][c] != null &&

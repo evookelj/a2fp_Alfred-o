@@ -1,6 +1,6 @@
 class TileNode {
   public static final int gridWidth = 2; //width it takes up in grid
-  public static final int gridHeight = 3; //height it takes up in grid
+  public static final int gridHeight = 2; //height it takes up in grid
 
   private ArrayList<TileNode> _top; 
   private ArrayList<TileNode> _beneathMe;
@@ -25,8 +25,8 @@ class TileNode {
   }
 
   private void drawForm() {
-    rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3, 8.0);
-    image(_image, (float)Board.gridCellPx * (_tlCol + 0.06), (float)Board.gridCellPx * (_tlRow + 0.25), (float)Board.gridCellPx * 1.9, (float) Board.gridCellPx * 1.9);
+    rect((float)Board.gridCellWidth * _tlCol, (float)Board.gridCellHeight * _tlRow, (float)Board.gridCellWidth * gridWidth, (float) Board.gridCellHeight * gridHeight, 8.0);
+    image(_image, (float)Board.gridCellWidth * (_tlCol + 0.06), (float)Board.gridCellHeight * (_tlRow + 0.25), (float)Board.gridCellWidth * 1.9, (float) Board.gridCellWidth * 1.9);
   }
 
   private void drawPlain() {

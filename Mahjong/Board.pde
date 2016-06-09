@@ -1,5 +1,6 @@
 class Board {
-  public static final int gridCellPx = 20; //Size of grid cells
+  public static final int gridCellWidth = 20; // width of each grid
+  public static final int gridCellHeight = 30; // height of each grid cell
 
   private ArrayList<TileNode> _top;
   private ArrayList<TileNode[][]> _map;
