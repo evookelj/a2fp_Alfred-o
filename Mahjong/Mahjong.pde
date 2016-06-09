@@ -1,5 +1,5 @@
-boolean DEBUG_MODE = true;
-
+boolean DEBUG_MODE = false;
+boolean SHIFT = false;
 Board b;
 TileNode selectedTile;
 
@@ -38,12 +38,22 @@ void draw() {
     textAlign(LEFT, TOP);
     text("r" + r + "\nc" + c, c * Board.gridCellWidth, r * Board.gridCellHeight);
   }
+  fill(color(0, 0, 0));
+  text("Press any letter key to toggle perspective", 10 / 2, 10);
 }
-
+void keyPressed() {
+  SHIFT = !SHIFT;
+}
 void mouseClicked() {
-  int r = mouseY / Board.gridCellHeight;
-  int c = mouseX / Board.gridCellWidth;
+  int mY = mouseY;
+  int mX = mouseX;
   for (int layerIndex = b._map.size()-1; layerIndex >= 0; layerIndex--) {
+    if (SHIFT) {
+      mY += 3 * layerIndex;
+      mX += 3 * layerIndex;
+    }
+    int r = (mY + 3 * layerIndex) / Board.gridCellHeight;
+    int c = (mX + 3 * layerIndex) / Board.gridCellWidth;
     TileNode[][] layerTiles = b._map.get(layerIndex);
     if (layerTiles[r][c] != null &&
         !b.isBlockedOnSides(layerTiles[r][c]) &&

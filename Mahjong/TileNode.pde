@@ -25,8 +25,31 @@ class TileNode {
   }
 
   private void drawForm() {
-    rect((float)Board.gridCellWidth * _tlCol, (float)Board.gridCellHeight * _tlRow, (float)Board.gridCellWidth * gridWidth, (float) Board.gridCellHeight * gridHeight, 8.0);
-    image(_image, (float)Board.gridCellWidth * (_tlCol + 0.06), (float)Board.gridCellHeight * (_tlRow + 0.25), (float)Board.gridCellWidth * 1.9, (float) Board.gridCellWidth * 1.9);
+    float x = (float)Board.gridCellWidth * _tlCol;
+    float y = (float)Board.gridCellHeight * _tlRow;
+    float w = (float)Board.gridCellWidth * gridWidth;
+    float h = (float) Board.gridCellHeight * gridHeight;
+    if (SHIFT) {
+      x -= _layer * 3;
+      y -= _layer * 3;
+    }
+    /* Shadow:
+    pushStyle();
+    noStroke();
+    fill(color(100, 100, 100, 50));
+    rect(x - 5, y - 5, w, h, 8.0);
+    popStyle();*/
+
+    // Right and lower sides of the tile, for perspective:
+    pushStyle();
+    stroke(color(100, 100, 150));
+    fill(color(145, 145, 200));
+    rect(x + 3, y + 3, w, h, 8.0);
+    popStyle();
+
+    // Tile top face (shape and album cover):
+    rect(x, y, w, h, 8.0);
+    image(_image, x + (float)Board.gridCellWidth * 0.06, y + (float)Board.gridCellHeight * 0.25, (float)Board.gridCellWidth * 1.9, (float) Board.gridCellWidth * 1.9);
   }
 
   private void drawPlain() {
