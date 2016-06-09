@@ -97,6 +97,12 @@ class Board {
     _map.add(new TileNode[mapGridRows][mapGridCols]);
   }
 
+  public void addPairTop(int albumIndex, int r0, int c0, int r1, int c1) {
+    String fileName = albumIndex + ".png";
+    addTileTopLayer(r0, c0, fileName);
+    addTileTopLayer(r1, c1, fileName);
+  }
+
   public void drawTiles() {
     for (TileNode[][] layer : _map) {
       for (int i = 0; i < layer.length; i += TileNode.gridHeight) {
