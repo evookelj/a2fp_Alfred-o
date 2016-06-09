@@ -33,27 +33,28 @@ void mouseClicked() {
   int c = mouseX / b.gridCellPx;
   for (int layer = b._map.size()-1; layer>=0; layer--) {
     TileNode[][] temp = b._map.get(layer);
-    if (temp != null && 
+    if (temp != null &&
       temp[r][c] != null &&
       !b.isSurrounded(layer, r, c) &&
       b._top.contains(temp[r][c])) {
-      if (selectA == null) { 
+      if (selectA == null) {
+        // This is the first selection in the pair
         selectA = temp[r][c];
         layerA = layer;
-      } else { 
-        if (selectA._imageName == temp[r][c]._imageName
-          && temp[r][c] != selectA) {
-          selectB = temp[r][c];
-          b.remove(layerA, layer, selectA, selectB);
-          selectA = null;
-          selectB = null;
-        } 
-        if (selectA._imageName != temp[r][c]._imageName
-          && temp[r][c] != selectA) {
-          temp[r][c].invalidDraw();
-        }
+      } else {
         if (temp[r][c] == selectA) { 
+          // The user clicked the same tile twice, thus deselecting it
           selectA = null;
+        } else {
+          // The use has requested to match a pair
+          if (selectA._imageName.equals(temp[r][c]._imageName)) {
+            selectB = temp[r][c];
+            b.remove(layerA, layer, selectA, selectB);
+            selectA = null;
+            selectB = null;
+          } else {
+            temp[r][c].invalidDraw();
+          }
         }
       }
       return;
