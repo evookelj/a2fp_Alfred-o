@@ -19,10 +19,10 @@ void draw() {
   fill(color(255, 255, 255));
   b.drawTiles();
   if (selectA != null) {
-    selectA.selectDraw();
+    selectA.drawSelected();
   }
   if (selectB != null) {
-    selectB.selectDraw();
+    selectB.drawSelected();
   }
 }
 
@@ -50,7 +50,7 @@ void mouseClicked() {
             selectA = null;
             selectB = null;
           } else {
-            layerTiles[r][c].invalidDraw();
+            layerTiles[r][c].drawInvalidChoice();
           }
         }
       }

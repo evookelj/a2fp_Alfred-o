@@ -102,7 +102,7 @@ class Board {
       for (int i = 0; i < layer.length; i += TileNode.gridHeight) {
         for (int j = 0; j < layer[i].length; j += TileNode.gridWidth) {
           if (layer[i][j] != null) {
-            layer[i][j].jankDraw();
+            layer[i][j].drawStandard();
           }
         }
       }

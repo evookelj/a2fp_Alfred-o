@@ -21,27 +21,27 @@ class TileNode {
     _beneathMe = new ArrayList<TileNode>();
   }
 
-  private void cooooolDraw() {
+  private void drawForm() {
     rect((float)Board.gridCellPx * _tlCol, (float)Board.gridCellPx * _tlRow, (float)Board.gridCellPx * 2, (float) Board.gridCellPx * 3, 8.0);
     image(_image, (float)Board.gridCellPx * (_tlCol + 0.06), (float)Board.gridCellPx * (_tlRow + 0.25), (float)Board.gridCellPx * 1.9, (float) Board.gridCellPx * 1.9);
   }
 
-  public void jankDraw() {
+  public void drawStandard() {
     fill(color(255,255,255));
     stroke(color(0, 0, 0));
-    cooooolDraw();
+    drawForm();
   }
 
-  public void selectDraw() {
+  public void drawSelected() {
     strokeWeight(4);
-    jankDraw();
+    drawStandard();
     strokeWeight(1);
   }
   
-  public void invalidDraw() {
+  public void drawInvalidChoice() {
     strokeWeight(4);
     stroke(color(255, 0, 0));
-    cooooolDraw();
+    drawForm();
     strokeWeight(1);
   }
 
