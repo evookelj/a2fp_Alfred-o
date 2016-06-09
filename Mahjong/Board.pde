@@ -36,7 +36,7 @@ class Board {
 
   public void puzzleGen() {
     b.addLayer();
-    for (int pairCount = 0; pairCount < 50; pairCount++) {
+    for (int pairCount = 0; pairCount < 75; pairCount++) {
       int r1, r2, c1, c2;
       String picName = (int)(Math.random()*34) + ".png";
       do {
@@ -51,19 +51,18 @@ class Board {
 
       if (_map.get(_map.size()-1)[r1][c1] != null) {
         b.addLayer();
-        addTileTopLayer(r1,c1,picName);
+        addTileTopLayer(r1, c1, picName);
       }
-      
-      while (isSupported(r2,c2) != (_map.get(_map.size()-1)[r2][c2] != null)) {
+
+      while (isSupported(r2, c2) != (_map.get(_map.size()-1)[r2][c2] != null)) {
         r2 = randomRow();
         c2 = randomCol();
       }
       if (_map.get(_map.size()-1)[r2][c2] != null) {
         b.addLayer();
-        addTileTopLayer(r2,c2,picName);
+        addTileTopLayer(r2, c2, picName);
         continue;
-      }
-      else { //if second tile of pair not on same layer
+      } else { //if second tile of pair not on same layer
         int layer2;
         for (layer2 = _map.size(); layer2 >= 1; layer2--) {
           if (_map.get(layer2-1)[r2][c2] != null) { 
@@ -72,6 +71,7 @@ class Board {
         }
         addTileAt(new TileNode(_top, r2, c2, layer2, picName), r2, c2, layer2);
       }
+      println(r1 + " " + c1 + " " + r2 + " " + c2);
     }
   }
 
@@ -122,7 +122,6 @@ class Board {
     for (int layer = mapLayer - 1; layer >= 0; layer--) {
       for (int i = tlRow; i < tlRow + TileNode.gridHeight && i<mapGridRows; i++) {
         for (int j = tlCol; j < tlCol + TileNode.gridWidth && j<mapGridCols; j++) {
-          println("Layer: " + layer + " i: " + i + " j: " + j);
           TileNode lowerTile = _map.get(layer)[i][j];
           if (lowerTile != null && !node.getBeneathMe().contains(lowerTile)) {
             node.getBeneathMe().add(lowerTile);

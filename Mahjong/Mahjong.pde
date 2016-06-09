@@ -2,12 +2,14 @@ boolean DEBUG_MODE = true;
 boolean SHIFT = false;
 Board b;
 TileNode selectedTile;
+int startTime;
 
 void setup() {
   size(600, 450);
   b = new Board(width / Board.gridCellWidth, height / Board.gridCellHeight);
   //b.puzzleGen();
   setupMapA();
+  startTime = millis();
 }
 
 int[] scrambledIndices() {
@@ -69,6 +71,14 @@ void draw() {
   }
   fill(color(0, 0, 0));
   text("Press any letter key to toggle perspective", 10 / 2, 10);
+  int seconds = (millis() - startTime) / 1000;
+  int minutes = seconds/60;
+  seconds = seconds%60;
+  if (seconds>=10) {
+    text((minutes) + ":" + (seconds), 10/2, 40);
+  } else {
+    text((minutes) + ":0" + (seconds), 10/2, 40);
+  }
 }
 void keyPressed() {
   SHIFT = !SHIFT;
@@ -85,8 +95,8 @@ void mouseClicked() {
     int c = (mX + 3 * layerIndex) / Board.gridCellWidth;
     TileNode[][] layerTiles = b._map.get(layerIndex);
     if (layerTiles[r][c] != null &&
-        !b.isBlockedOnSides(layerTiles[r][c]) &&
-        b._top.contains(layerTiles[r][c])) {
+      !b.isBlockedOnSides(layerTiles[r][c]) &&
+      b._top.contains(layerTiles[r][c])) {
       if (selectedTile == null) {
         // This is the first selection in the pair
         selectedTile = layerTiles[r][c];
