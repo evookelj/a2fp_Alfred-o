@@ -26,19 +26,27 @@ class Board {
     return true;
   }
 
+  private int randomRow() {
+    return (int)(Math.random() * (mapGridRows - 2 * TileNode.gridHeight) + TileNode.gridHeight);
+  }
+
+  private int randomCol() {
+    return (int)(Math.random() * (mapGridCols - 2 * TileNode.gridWidth) + TileNode.gridWidth);
+  }
+
   public void puzzleGen() {
     b.addLayer();
     for (int pairCount = 0; pairCount < 50; pairCount++) {
       int r1, r2, c1, c2;
       String picName = (int)(Math.random()*34) + ".png";
       do {
-        r1 = (int)(Math.random() * (mapGridRows - TileNode.gridHeight) + TileNode.gridHeight);
-        c1 = (int)(Math.random() * (mapGridCols - TileNode.gridWidth) + TileNode.gridWidth);
+        r1 = randomRow();
+        c1 = randomCol();
       } while (isSupported(r1, c1) != (_map.get(_map.size()-1)[r1][c1]!= null));
 
       do {
-        r2 = (int)(Math.random() * (mapGridRows - TileNode.gridHeight) + TileNode.gridHeight);
-        c2 = (int)(Math.random() * (mapGridCols - TileNode.gridWidth) + TileNode.gridWidth);
+        r2 = randomRow();
+        c2 = randomCol();
       } while (r1==r2 && c1==c2);
 
       if (_map.get(_map.size()-1)[r1][c1] != null) {
@@ -47,8 +55,8 @@ class Board {
       }
       
       while (isSupported(r2,c2) != (_map.get(_map.size()-1)[r2][c2] != null)) {
-        r2 = (int)(Math.random() * (mapGridRows - TileNode.gridHeight) + TileNode.gridHeight);
-        c2 = (int)(Math.random() * (mapGridCols - TileNode.gridWidth) + TileNode.gridWidth);
+        r2 = randomRow();
+        c2 = randomCol();
       }
       if (_map.get(_map.size()-1)[r2][c2] != null) {
         b.addLayer();
