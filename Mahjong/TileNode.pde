@@ -9,18 +9,13 @@ class TileNode {
   private PImage _image;
   private int _tlRow; //row of topleft corner
   private int _tlCol; //col of topleft corner
+  private int _layer; //index of occupying layer in _map
 
-  public TileNode(String p, ArrayList<TileNode> top) {
-    _imageName = p;
-    _image = loadImage(p);
-    _top = top;
-    _beneathMe = new ArrayList<TileNode>();
-  }
-
-  public TileNode(ArrayList<TileNode> top, int tlRow, int tlCol, String p) {
+  public TileNode(ArrayList<TileNode> top, int tlRow, int tlCol, int layer, String p) {
     _top = top;
     _tlRow = tlRow;
     _tlCol = tlCol;
+    _layer = layer;
     _imageName = p;
     _image = loadImage(p);
     _beneathMe = new ArrayList<TileNode>();
@@ -70,4 +65,5 @@ class TileNode {
   
   public int getRow() { return _tlRow; }
   public int getCol() { return _tlCol; }
+  public int getLayer() { return _layer; }
 }

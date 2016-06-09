@@ -1,12 +1,10 @@
 Board b;
-int layerA;
 TileNode selectA;
 TileNode selectB;
 
 void setup() {
   size(600, 420);
   b = new Board(width / 20, height / 20);
-  //b.fillBottomTiles();
   b.addLayer();
 
   b.addTileTopLayer(5, 3, "0.png");
@@ -29,31 +27,30 @@ void draw() {
 }
 
 void mouseClicked() {
-  int r = mouseY / b.gridCellPx;
-  int c = mouseX / b.gridCellPx;
-  for (int layer = b._map.size()-1; layer>=0; layer--) {
-    TileNode[][] temp = b._map.get(layer);
-    if (temp != null &&
-      temp[r][c] != null &&
-      !b.isSurrounded(layer, r, c) &&
-      b._top.contains(temp[r][c])) {
+  int r = mouseY / Board.gridCellPx;
+  int c = mouseX / Board.gridCellPx;
+  for (int layerIndex = b._map.size()-1; layerIndex >= 0; layerIndex--) {
+    TileNode[][] layerTiles = b._map.get(layerIndex);
+    if (layerTiles[r][c] != null &&
+        !b.isSurrounded(layerIndex, r, c) &&
+        b._top.contains(layerTiles[r][c])) {
       if (selectA == null) {
         // This is the first selection in the pair
-        selectA = temp[r][c];
-        layerA = layer;
+        selectA = layerTiles[r][c];
       } else {
-        if (temp[r][c] == selectA) { 
+        if (layerTiles[r][c] == selectA) {
           // The user clicked the same tile twice, thus deselecting it
           selectA = null;
         } else {
           // The use has requested to match a pair
-          if (selectA._imageName.equals(temp[r][c]._imageName)) {
-            selectB = temp[r][c];
-            b.remove(layerA, layer, selectA, selectB);
+          if (selectA._imageName.equals(layerTiles[r][c]._imageName)) {
+            selectB = layerTiles[r][c];
+            b.removeTile(selectA);
+            b.removeTile(selectB);
             selectA = null;
             selectB = null;
           } else {
-            temp[r][c].invalidDraw();
+            layerTiles[r][c].invalidDraw();
           }
         }
       }

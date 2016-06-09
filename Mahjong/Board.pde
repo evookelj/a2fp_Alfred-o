@@ -14,24 +14,20 @@ class Board {
     mapGridRows = h;
   }
 
-  public void remove(int layerA, int layerB, TileNode a, TileNode b) {
-    for (TileNode t : a.getBeneathMe()) { 
+  private void removeTile(TileNode tile) {
+    // Inform tiles below of `tile`'s removal
+    for (TileNode t : tile.getBeneathMe()) {
       t.decAboveMe();
     }
-    for (TileNode t : b.getBeneathMe()) { 
-      t.decAboveMe();
-    }
-    _top.remove(a);
-    _top.remove(b);
-    //remove all traces of selectA in _map
-    for (int i = a.getRow(); i < a.getRow() + TileNode.gridHeight; i++) {
-      for (int j = a.getCol(); j < a.getCol() + TileNode.gridWidth; j++) {
-        _map.get(layerA)[i][j] = null;
-      }
-    }
-    for (int i = b.getRow(); i < b.getRow() + TileNode.gridHeight; i++) {
-      for (int j = b.getCol(); j < b.getCol() + TileNode.gridWidth; j++) {
-        _map.get(layerB)[i][j] = null;
+    // We do not have to worry about tiles containing `tile` in their _beneathMe's,
+    // as in that case `tile` would be covered and thus not removable.
+
+    // Remove its references from _top and its layer in _map
+    _top.remove(tile);
+    TileNode[][] layer = _map.get(tile.getLayer());
+    for (int i = tile.getRow(); i < tile.getRow() + TileNode.gridHeight; i++) {
+      for (int j = tile.getCol(); j < tile.getCol() + TileNode.gridWidth; j++) {
+        layer[i][j] = null;
       }
     }
   }
@@ -66,22 +62,6 @@ class Board {
     return around == 4;
   }
 
-/*
-  public void fillBottomTiles() {
-    if (_map.isEmpty()) {
-      _map.add(new TileNode[mapGridRows][mapGridCols]);
-    }
-    int mapLayer = 0;
-    for (int i = 0; i < mapGridRows; i += TileNode.gridHeight) {
-      for (int j = 0; j < mapGridCols; j += TileNode.gridWidth) {
-        TileNode tile = new TileNode(_top, i, j, color(225, 225, 225));
-        addTileAt(tile, i, j, mapLayer);
-        _top.add(tile);
-      }
-    }
-  }
-  */
-
   // Add a vertically oriented TileNode at grid position row tlRow, column tlCol
   private void addTileAt(TileNode node, int tlRow, int tlCol, int mapLayer) {
     for (int i = tlRow; i < tlRow + TileNode.gridHeight && i < mapGridRows; i++) {
@@ -108,7 +88,7 @@ class Board {
 
   public void addTileTopLayer(int tlRow, int tlCol, String p) {
     int mapLayer = _map.size() - 1;
-    TileNode tile = new TileNode(_top, tlRow, tlCol, p);
+    TileNode tile = new TileNode(_top, tlRow, tlCol, mapLayer, p);
     addTileAt(tile, tlRow, tlCol, mapLayer);
     _top.add(tile);
   }
