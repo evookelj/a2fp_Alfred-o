@@ -1,6 +1,5 @@
 Board b;
-TileNode selectA;
-TileNode selectB;
+TileNode selectedTile;
 
 void setup() {
   size(600, 420);
@@ -18,11 +17,8 @@ void draw() {
   rect(0, 0, width, height);
   fill(color(255, 255, 255));
   b.drawTiles();
-  if (selectA != null) {
-    selectA.drawSelected();
-  }
-  if (selectB != null) {
-    selectB.drawSelected();
+  if (selectedTile != null) {
+    selectedTile.drawSelected();
   }
 }
 
@@ -34,21 +30,19 @@ void mouseClicked() {
     if (layerTiles[r][c] != null &&
         !b.isSurrounded(layerIndex, r, c) &&
         b._top.contains(layerTiles[r][c])) {
-      if (selectA == null) {
+      if (selectedTile == null) {
         // This is the first selection in the pair
-        selectA = layerTiles[r][c];
+        selectedTile = layerTiles[r][c];
       } else {
-        if (layerTiles[r][c] == selectA) {
+        if (layerTiles[r][c] == selectedTile) {
           // The user clicked the same tile twice, thus deselecting it
-          selectA = null;
+          selectedTile = null;
         } else {
-          // The use has requested to match a pair
-          if (selectA._imageName.equals(layerTiles[r][c]._imageName)) {
-            selectB = layerTiles[r][c];
-            b.removeTile(selectA);
-            b.removeTile(selectB);
-            selectA = null;
-            selectB = null;
+          // The use has requested to match the pair (selectedTile and layerTiles[r][c])
+          if (selectedTile._imageName.equals(layerTiles[r][c]._imageName)) {
+            b.removeTile(selectedTile);
+            b.removeTile(layerTiles[r][c]);
+            selectedTile = null;
           } else {
             layerTiles[r][c].drawInvalidChoice();
           }
