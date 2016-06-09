@@ -1,6 +1,6 @@
 class Board {
-  public static final int gridCellWidth = 20; // width of each grid
-  public static final int gridCellHeight = 30; // height of each grid cell
+  public static final int gridCellWidth = 30; // width of each grid
+  public static final int gridCellHeight = 45; // height of each grid cell
 
   private ArrayList<TileNode> _top;
   private ArrayList<TileNode[][]> _map;
@@ -144,6 +144,14 @@ class Board {
 
   public void addLayer() {
     _map.add(new TileNode[mapGridRows][mapGridCols]);
+  }
+
+  public void victory() {
+    background(color(0, 0, 0));
+    textSize(80);
+    fill(0, 102, 153, 204);
+    textAlign(CENTER);
+    text("YOU DID IT!\nThanks for playing!", width/2, height/2);  // Default depth, no z-value specified
   }
 
   public void addPairTop(int albumIndex, int r0, int c0, int r1, int c1) {

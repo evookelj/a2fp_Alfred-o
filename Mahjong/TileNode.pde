@@ -1,6 +1,6 @@
 class TileNode {
-  public static final int gridWidth = 3; //width it takes up in grid
-  public static final int gridHeight = 3; //height it takes up in grid
+  public static final int gridWidth = 2; //width it takes up in grid
+  public static final int gridHeight = 2; //height it takes up in grid
 
   private ArrayList<TileNode> _top; 
   private ArrayList<TileNode> _beneathMe;

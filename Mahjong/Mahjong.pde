@@ -5,10 +5,10 @@ TileNode selectedTile;
 int startTime;
 
 void setup() {
-  size(600, 450);
+  size(900, 675);
   b = new Board(width / Board.gridCellWidth, height / Board.gridCellHeight);
   //b.puzzleGen();
-  setupMapA();
+  //setupMapA();
   startTime = millis();
 }
 
@@ -79,6 +79,7 @@ void draw() {
   } else {
     text((minutes) + ":0" + (seconds), 10/2, 40);
   }
+  if (b._top.size() == 0) { b.victory(); }
 }
 void keyPressed() {
   SHIFT = !SHIFT;
