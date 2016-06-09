@@ -15,30 +15,52 @@ class Board {
     mapGridRows = h;
   }
 
+  public boolean isSupported(int row, int col) {
+    for (int r=row; r<row+TileNode.gridHeight && r<mapGridRows; r++) {
+      for (int c=col; c<col+TileNode.gridWidth && c<mapGridCols; c++) {
+        if (_map.get(_map.size()-1)[r][c] == null) { 
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   public void puzzleGen() {
     b.addLayer();
     for (int pairCount = 0; pairCount < 50; pairCount++) {
       int r1, r2, c1, c2;
       String picName = (int)(Math.random()*34) + ".png";
-      r1 = (int)(Math.random() * (mapGridRows - (2*TileNode.gridHeight)) + TileNode.gridHeight);
-      c1 = (int)(Math.random() * (mapGridCols - (2*TileNode.gridWidth)) + TileNode.gridWidth);
+      do {
+        r1 = (int)(Math.random() * (mapGridRows - TileNode.gridHeight) + TileNode.gridHeight);
+        c1 = (int)(Math.random() * (mapGridCols - TileNode.gridWidth) + TileNode.gridWidth);
+      } while (isSupported(r1, c1) != (_map.get(_map.size()-1)[r1][c1]!= null));
+
       do {
         r2 = (int)(Math.random() * (mapGridRows - TileNode.gridHeight) + TileNode.gridHeight);
         c2 = (int)(Math.random() * (mapGridCols - TileNode.gridWidth) + TileNode.gridWidth);
       } while (r1==r2 && c1==c2);
-      
-      if (_map.get(_map.size()-1)[r1][c1] != null) { 
+
+      if (_map.get(_map.size()-1)[r1][c1] != null) {
         b.addLayer();
+        addTileTopLayer(r1,c1,picName);
       }
-      addTileTopLayer(r1, c1, picName);
       
+      while (isSupported(r2,c2) != (_map.get(_map.size()-1)[r2][c2] != null)) {
+        r2 = (int)(Math.random() * (mapGridRows - TileNode.gridHeight) + TileNode.gridHeight);
+        c2 = (int)(Math.random() * (mapGridCols - TileNode.gridWidth) + TileNode.gridWidth);
+      }
       if (_map.get(_map.size()-1)[r2][c2] != null) {
         b.addLayer();
-        addTileTopLayer(r2, c2, picName);
-      } else {
+        addTileTopLayer(r2,c2,picName);
+        continue;
+      }
+      else { //if second tile of pair not on same layer
         int layer2;
         for (layer2 = _map.size(); layer2 >= 1; layer2--) {
-          if (_map.get(layer2-1)[r2][c2] != null) { break; }
+          if (_map.get(layer2-1)[r2][c2] != null) { 
+            break;
+          }
         }
         addTileAt(new TileNode(_top, r2, c2, layer2, picName), r2, c2, layer2);
       }
