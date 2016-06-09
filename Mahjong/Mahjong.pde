@@ -8,9 +8,12 @@ void setup() {
 
   b.addTileTopLayer(5, 3, "0.png");
   b.addTileTopLayer(7, 1, "0.png");
+  b.addTileTopLayer(7, 5, "0.png");
+  b.addTileTopLayer(8, 3, "0.png");
   b.addTileTopLayer(2, 11, "1.png");
   b.addTileTopLayer(16, 17, "1.png");
 }
+
 void draw() {
   fill(color(245, 245, 220));
   stroke(color(0, 0, 0));
@@ -28,7 +31,7 @@ void mouseClicked() {
   for (int layerIndex = b._map.size()-1; layerIndex >= 0; layerIndex--) {
     TileNode[][] layerTiles = b._map.get(layerIndex);
     if (layerTiles[r][c] != null &&
-        !b.isSurrounded(layerIndex, r, c) &&
+        !b.isBlockedOnSides(layerTiles[r][c]) &&
         b._top.contains(layerTiles[r][c])) {
       if (selectedTile == null) {
         // This is the first selection in the pair

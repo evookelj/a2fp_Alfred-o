@@ -32,34 +32,22 @@ class Board {
     }
   }
 
-  public boolean isSurrounded(int layer, int r, int c) {
-    int around = 0;
-    TileNode[][] temp = b._map.get(layer);
-    if (temp != null) {
-      around = 0;
-      //check above
-      if ((r > TileNode.gridHeight) && 
-        (temp[r-TileNode.gridHeight][c] != null)) {
-        around+=1;
-      } 
-      //check below
-      if ((r < temp.length - TileNode.gridHeight) && 
-        (temp[r+TileNode.gridHeight][c] != null)) {
-        around+=1;
-      } 
-      //check left
-      if ((c > TileNode.gridWidth) && 
-        (temp[r][c-TileNode.gridWidth] != null)) {
-        around+=1;
+  // If a tile is adjacent (even in part) on a tile on its left and to one
+  // on its right, it cannot be selected. Top and bottom do not matter.
+  public boolean isBlockedOnSides(TileNode tile) {
+    TileNode[][] layerTiles = _map.get(tile.getLayer());
+    boolean blockedOnLeft = false;
+    boolean blockedOnRight = false;
+    for (int r = tile.getRow(); r < tile.getRow() + TileNode.gridHeight; r++) {
+      // Does not test for out-of-bounds errors on column because no tiles should contact the edges
+      if (layerTiles[r][tile.getCol() - 1] != null) {
+        blockedOnLeft = true;
       }
-      //check right
-      if ((c < temp[r].length - TileNode.gridWidth) && 
-        (temp[r][r+TileNode.gridWidth] != null)) {
-        around+=1;
+      if (layerTiles[r][tile.getCol() + TileNode.gridWidth] != null) {
+        blockedOnRight = true;
       }
-      return around == 4;
     }
-    return around == 4;
+    return blockedOnLeft && blockedOnRight;
   }
 
   // Add a vertically oriented TileNode at grid position row tlRow, column tlCol
