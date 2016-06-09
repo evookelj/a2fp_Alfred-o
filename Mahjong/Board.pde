@@ -54,7 +54,7 @@ class Board {
   // Add a vertically oriented TileNode at grid position row tlRow, column tlCol
   private void addTileAt(TileNode node, int tlRow, int tlCol, int mapLayer) {
     for (int i = tlRow; i < tlRow + TileNode.gridHeight && i < mapGridRows; i++) {
-      for (int j = tlCol; j < tlCol + TileNode.gridWidth && i < mapGridCols; j++) {
+      for (int j = tlCol; j < tlCol + TileNode.gridWidth && j < mapGridCols; j++) {
         _map.get(mapLayer)[i][j] = node;
       }
     }
