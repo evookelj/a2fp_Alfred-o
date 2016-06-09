@@ -15,6 +15,36 @@ class Board {
     mapGridRows = h;
   }
 
+  public void puzzleGen() {
+    b.addLayer();
+    for (int pairCount = 0; pairCount < 50; pairCount++) {
+      int r1, r2, c1, c2;
+      String picName = (int)(Math.random()*34) + ".png";
+      r1 = (int)(Math.random() * (mapGridRows - (2*TileNode.gridHeight)) + TileNode.gridHeight);
+      c1 = (int)(Math.random() * (mapGridCols - (2*TileNode.gridWidth)) + TileNode.gridWidth);
+      do {
+        r2 = (int)(Math.random() * (mapGridRows - TileNode.gridHeight) + TileNode.gridHeight);
+        c2 = (int)(Math.random() * (mapGridCols - TileNode.gridWidth) + TileNode.gridWidth);
+      } while (r1==r2 && c1==c2);
+      
+      if (_map.get(_map.size()-1)[r1][c1] != null) { 
+        b.addLayer();
+      }
+      addTileTopLayer(r1, c1, picName);
+      
+      if (_map.get(_map.size()-1)[r2][c2] != null) {
+        b.addLayer();
+        addTileTopLayer(r2, c2, picName);
+      } else {
+        int layer2;
+        for (layer2 = _map.size(); layer2 >= 1; layer2--) {
+          if (_map.get(layer2-1)[r2][c2] != null) { break; }
+        }
+        addTileAt(new TileNode(_top, r2, c2, layer2, picName), r2, c2, layer2);
+      }
+    }
+  }
+
   private void removeTile(TileNode tile) {
     // Inform tiles below of `tile`'s removal
     for (TileNode t : tile.getBeneathMe()) {
@@ -60,8 +90,9 @@ class Board {
     }
     // Add all the tiles occupying these spaces in lower layers to _beneathMe
     for (int layer = mapLayer - 1; layer >= 0; layer--) {
-      for (int i = tlRow; i < tlRow + TileNode.gridHeight; i++) {
-        for (int j = tlCol; j < tlCol + TileNode.gridWidth; j++) {
+      for (int i = tlRow; i < tlRow + TileNode.gridHeight && i<mapGridRows; i++) {
+        for (int j = tlCol; j < tlCol + TileNode.gridWidth && j<mapGridCols; j++) {
+          println("Layer: " + layer + " i: " + i + " j: " + j);
           TileNode lowerTile = _map.get(layer)[i][j];
           if (lowerTile != null && !node.getBeneathMe().contains(lowerTile)) {
             node.getBeneathMe().add(lowerTile);

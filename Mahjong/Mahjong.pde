@@ -6,14 +6,16 @@ TileNode selectedTile;
 void setup() {
   size(600, 450);
   b = new Board(width / Board.gridCellWidth, height / Board.gridCellHeight);
+  /*
   b.addLayer();
-
   b.addTileTopLayer(5, 3, "0.png");
   b.addTileTopLayer(6, 1, "0.png");
   b.addTileTopLayer(6, 5, "0.png");
   b.addTileTopLayer(7, 3, "0.png");
   b.addTileTopLayer(2, 11, "1.png");
   b.addTileTopLayer(10, 17, "1.png");
+  */
+  b.puzzleGen();
 }
 
 void draw() {
