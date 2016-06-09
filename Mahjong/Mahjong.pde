@@ -1,4 +1,4 @@
-boolean DEBUG_MODE = false;
+boolean DEBUG_MODE = true;
 boolean SHIFT = false;
 Board b;
 TileNode selectedTile;
@@ -6,16 +6,45 @@ TileNode selectedTile;
 void setup() {
   size(600, 450);
   b = new Board(width / Board.gridCellWidth, height / Board.gridCellHeight);
-  /*
+  //b.puzzleGen();
+  setupMapA();
+}
+
+int[] scrambledIndices() {
+  int[] imgs = new int[36]; // 36 album covers
+  for (int i = 0; i < imgs.length; i++) {
+    imgs[i] = i;
+  }
+  for (int i = 0; i < imgs.length; i++) {
+    int j = (int) (Math.random() * imgs.length);
+    int tmp = imgs[i];
+    imgs[i] = imgs[j];
+    imgs[j] = tmp;
+  }
+  return imgs;
+}
+
+void setupMapA() {
+  int[] imgs = scrambledIndices();
   b.addLayer();
-  b.addTileTopLayer(5, 3, "0.png");
-  b.addTileTopLayer(6, 1, "0.png");
-  b.addTileTopLayer(6, 5, "0.png");
-  b.addTileTopLayer(7, 3, "0.png");
-  b.addTileTopLayer(2, 11, "1.png");
-  b.addTileTopLayer(10, 17, "1.png");
-  */
-  b.puzzleGen();
+  b.addPairTop(imgs[2], 2, 8, 6, 22);
+  b.addPairTop(imgs[0], 2, 10, 6, 2);
+  b.addPairTop(imgs[3], 2, 12, 5, 4);
+  b.addPairTop(imgs[5], 3, 16, 7, 10);
+  b.addPairTop(imgs[4], 2, 14, 5, 14);
+  b.addPairTop(imgs[6], 4, 22, 5, 6);
+  b.addPairTop(imgs[6], 3, 18, 12, 10);
+  b.addPairTop(imgs[7], 3, 20, 12, 16);
+  b.addPairTop(imgs[8], 5, 16, 8, 16);
+  b.addPairTop(imgs[9], 5, 12, 4, 8);
+  b.addPairTop(imgs[10], 6, 8, 10, 4);
+  b.addPairTop(imgs[11], 8, 2, 12, 8);
+  b.addPairTop(imgs[12], 8, 14, 10, 6);
+  b.addPairTop(imgs[13], 10, 8, 9, 10);
+  b.addPairTop(imgs[14], 7, 12, 9, 12);
+  b.addPairTop(imgs[15], 8, 18, 12, 18);
+  b.addPairTop(imgs[16], 12, 12, 12, 14);
+  b.addPairTop(imgs[17], 10, 18, 7, 20);
 }
 
 void draw() {
