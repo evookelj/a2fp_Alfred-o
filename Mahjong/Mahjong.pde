@@ -44,7 +44,7 @@ void mouseClicked() {
             b.removeTile(layerTiles[r][c]);
             selectedTile = null;
           } else {
-            layerTiles[r][c].drawInvalidChoice();
+            layerTiles[r][c].invalidlySelected();
           }
         }
       }

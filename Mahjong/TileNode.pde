@@ -11,6 +11,9 @@ class TileNode {
   private int _tlCol; //col of topleft corner
   private int _layer; //index of occupying layer in _map
 
+  private static final long displayInvalidDuration = 100;
+  private long _displayInvalidTimeStop; //system time at which color should return from red (for invalid selection) to black
+
   public TileNode(ArrayList<TileNode> top, int tlRow, int tlCol, int layer, String p) {
     _top = top;
     _tlRow = tlRow;
@@ -26,10 +29,25 @@ class TileNode {
     image(_image, (float)Board.gridCellPx * (_tlCol + 0.06), (float)Board.gridCellPx * (_tlRow + 0.25), (float)Board.gridCellPx * 1.9, (float) Board.gridCellPx * 1.9);
   }
 
-  public void drawStandard() {
+  private void drawPlain() {
     fill(color(255,255,255));
     stroke(color(0, 0, 0));
     drawForm();
+  }
+
+  private void drawInvalidChoice() {
+    strokeWeight(4);
+    stroke(color(255, 0, 0));
+    drawForm();
+    strokeWeight(1);
+  }
+
+  public void drawStandard() {
+    if (_displayInvalidTimeStop > System.currentTimeMillis()) {
+      drawInvalidChoice();
+    } else {
+      drawPlain();
+    }
   }
 
   public void drawSelected() {
@@ -37,12 +55,9 @@ class TileNode {
     drawStandard();
     strokeWeight(1);
   }
-  
-  public void drawInvalidChoice() {
-    strokeWeight(4);
-    stroke(color(255, 0, 0));
-    drawForm();
-    strokeWeight(1);
+
+  public void invalidlySelected() {
+    _displayInvalidTimeStop = System.currentTimeMillis() + displayInvalidDuration;
   }
 
   public void incAboveMe() {
