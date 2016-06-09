@@ -103,4 +103,13 @@ class Board {
       }
     }
   }
+
+  public void drawGrid() {
+    for (int row = 0; row < mapGridRows; row++) {
+      line(0, row * gridCellHeight, width, row * gridCellHeight);
+    }
+    for (int col = 0; col < mapGridCols; col++) {
+      line(col * gridCellWidth, 0, col * gridCellWidth, height);
+    }
+  }
 }

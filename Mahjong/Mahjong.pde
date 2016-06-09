@@ -1,3 +1,5 @@
+boolean DEBUG_MODE = true;
+
 Board b;
 TileNode selectedTile;
 
@@ -21,8 +23,18 @@ void draw() {
   stroke(color(0, 0, 0));
   fill(color(255, 255, 255));
   b.drawTiles();
+  if (DEBUG_MODE) {
+    b.drawGrid();
+  }
   if (selectedTile != null) {
     selectedTile.drawSelected();
+  }
+  if (DEBUG_MODE) {
+    fill(color(150, 0, 0));
+    int r = mouseY / Board.gridCellHeight;
+    int c = mouseX / Board.gridCellWidth;
+    textAlign(LEFT, TOP);
+    text("r" + r + "\nc" + c, c * Board.gridCellWidth, r * Board.gridCellHeight);
   }
 }
 
