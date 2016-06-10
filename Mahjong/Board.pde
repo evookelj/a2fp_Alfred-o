@@ -35,7 +35,7 @@ class Board {
   }
 
   public void puzzleGen() {
-    b.addLayer();
+    addLayer();
     for (int pairCount = 0; pairCount < 75; pairCount++) {
       int r1, r2, c1, c2;
       String picName = (int)(Math.random()*34) + ".png";
@@ -50,7 +50,7 @@ class Board {
       } while (r1==r2 && c1==c2);
 
       if (_map.get(_map.size()-1)[r1][c1] != null) {
-        b.addLayer();
+        addLayer();
         addTileTopLayer(r1, c1, picName);
       }
 
@@ -59,7 +59,7 @@ class Board {
         c2 = randomCol();
       }
       if (_map.get(_map.size()-1)[r2][c2] != null) {
-        b.addLayer();
+        addLayer();
         addTileTopLayer(r2, c2, picName);
         continue;
       } else { //if second tile of pair not on same layer
