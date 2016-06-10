@@ -4,7 +4,8 @@ class Game implements Stage {
   private int startTime;
   private int curTime;
 
-  public Game() {
+  // This is run on the first frame:
+  public void init() {
     b = new Board(width / Board.gridCellWidth, height / Board.gridCellHeight);
     setupMapA();
     startTime = millis();
@@ -82,6 +83,9 @@ class Game implements Stage {
 
   // runFrame returns a Stage which will continue execution
   public Stage runFrame() {
+    if (b == null) {
+      init();
+    }
     curTime = millis();
     drawFrame();
     if (b._top.size() == 0) {

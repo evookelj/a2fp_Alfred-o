@@ -13,13 +13,13 @@ class VictoryMenu implements Stage {
     fill(bgColor);
     stroke(color(150, 0, 150));
     strokeWeight(5);
-    float msgW = width / 4;
+    float msgW = width / 3;
     float msgH = height / 4;
     float msgX = width / 2 - msgW / 2;
     float msgY = height / 2 - msgH / 2;
     rect(msgX, msgY, msgW, msgH, 10.0);
     popStyle();
-    fill(color(150, 0, 150));
+    fill(stdPurple);
     textAlign(CENTER, CENTER);
     textSize(40.0);
     text("You've won!", width / 2, height / 2 - 30);
@@ -30,7 +30,7 @@ class VictoryMenu implements Stage {
   public Stage runFrame() {
     drawFrame();
     if (_exit) {
-      return new Game();
+      return new MainMenu();
     }
     return this;
   }
