@@ -4,6 +4,9 @@ class Game implements Stage {
   private int startTime;
   private int curTime;
   private boolean _randLayout;
+  private boolean _quit;
+
+  private final FormerlyButton quitBtn = new FormerlyButton(width - 50, 40, 50, 35);
 
   public Game(boolean random) {
     _randLayout = random;
@@ -60,6 +63,11 @@ class Game implements Stage {
   public void drawFrame() {
     drawBackground();
     b.drawTiles();
+    quitBtn.draw();
+    fill(stdPurple);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    text("Quit", quitBtn._cx, quitBtn._cy - 3);
 
     if (DEBUG_MODE) {
       b.drawGrid();
@@ -92,6 +100,9 @@ class Game implements Stage {
 
   // runFrame returns a Stage which will continue execution
   public Stage runFrame() {
+    if (_quit) {
+      return new MainMenu();
+    }
     if (b == null) {
       init();
     }
@@ -107,6 +118,10 @@ class Game implements Stage {
     SHIFT = !SHIFT;
   }
   public void handleMouseClicked() {
+    if (quitBtn.contains(mouseX, mouseY)) {
+      _quit = true;
+      return;
+    }
     int mY = mouseY;
     int mX = mouseX;
     for (int layerIndex = b._map.size()-1; layerIndex >= 0; layerIndex--) {
