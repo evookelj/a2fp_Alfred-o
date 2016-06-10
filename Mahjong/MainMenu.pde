@@ -1,12 +1,9 @@
 class MainMenu implements Stage {
-  private final float btnW = 140.0;
-  private final float btnH = 80.0;
-  private final float btnCX = width / 2;
-  private final float btnCY = height / 2;
-  private final float btnX = btnCX - btnW / 2;
-  private final float btnY = btnCY - btnH / 2;
 
-  private boolean _play;
+  private final FormerlyButton playBtn = new FormerlyButton(width / 2, height / 2 - 10.0, 260.0, 80.0);
+  private final FormerlyButton randomBtn = new FormerlyButton(width / 2, height / 2 + 120.0, 260.0, 80.0);
+
+  private int _play;
 
   public void drawFrame() {
     drawBackground();
@@ -19,33 +16,33 @@ class MainMenu implements Stage {
     textSize(60.0);
     text("Mahjong", titleX, titleY + 55.0);
 
-    textSize(50.0);
-    if (_play) {
+    textSize(40.0);
+    if (_play > 0) {
       fill(stdPurple);
-      text("Starting...", btnCX, btnCY - 7);
+      text("Starting...", playBtn._cx, playBtn._cy - 5);
     } else {
-      stroke(stdPurple);
-      fill(bgDarker);
-      rect(btnX, btnY, btnW, btnH, 10.0);
+      playBtn.draw();
+      randomBtn.draw();
       fill(stdPurple);
-      text("Play", btnCX, btnCY - 7);
+      text("Play a Preset", playBtn._cx, playBtn._cy - 5);
+      text("Play Random", randomBtn._cx, randomBtn._cy - 5);
     }
   }
 
   public Stage runFrame() {
     drawFrame();
-    if (_play) {
-      return new Game();
+    if (_play > 0) {
+      return new Game(_play == 1);
     }
     return this;
   }
 
   public void handleMouseClicked() {
     println("Handling mouse click");
-    if (mouseX > btnX && mouseY > btnY &&
-        mouseX < btnX + btnW && mouseY < btnY + btnH) {
-      _play = true;
-      println("Playing");
+    if (playBtn.contains(mouseX, mouseY)) {
+      _play = 2;
+    } else if (randomBtn.contains(mouseX, mouseY)) {
+      _play = 1;
     }
   }
 

@@ -3,11 +3,20 @@ class Game implements Stage {
   private TileNode selectedTile;
   private int startTime;
   private int curTime;
+  private boolean _randLayout;
+
+  public Game(boolean random) {
+    _randLayout = random;
+  }
 
   // This is run on the first frame:
   public void init() {
     b = new Board(width / Board.gridCellWidth, height / Board.gridCellHeight);
-    setupMapA();
+    if (_randLayout) {
+      b.puzzleGen();
+    } else {
+      setupMapA();
+    }
     startTime = millis();
   }
 
