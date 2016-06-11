@@ -42,4 +42,4 @@ Fix typo in addTileAt() loop that caused occasional crash and add random
 puzzle generator. Add timer and increase size. Make primitive victory screen.
 
 2016-06-11
-Create preset-random game for mapA.
+Create preset-random game for mapA. Create set of valid positions for mapB.
