@@ -5,6 +5,7 @@ class Game implements Stage {
   private int curTime;
   private boolean _randLayout;
   private boolean _quit;
+  private ArrayList<ArrayList<Integer>> mapA;
 
   private final FormerlyButton quitBtn = new FormerlyButton(width - 50, 40, 50, 35);
 
@@ -18,7 +19,8 @@ class Game implements Stage {
     if (_randLayout) {
       b.puzzleGen();
     } else {
-      setupMapA();
+      initMapA();
+      //setupMapA();
     }
     startTime = millis();
   }
@@ -35,6 +37,52 @@ class Game implements Stage {
       imgs[j] = tmp;
     }
     return imgs;
+  }
+
+  private void initMapA() {
+    mapA = new ArrayList<ArrayList<Integer>>();
+    for (int i=0; i<b.mapGridRows; i++) { mapA.add(new ArrayList<Integer>()); }
+    mapA.get(2).add(8);
+    mapA.get(2).add(10);
+    mapA.get(2).add(12);
+    mapA.get(2).add(14);
+    mapA.get(3).add(16);
+    mapA.get(3).add(18);
+    mapA.get(3).add(20);
+    mapA.get(4).add(8);
+    mapA.get(4).add(22);
+    mapA.get(5).add(6);
+    mapA.get(5).add(12);
+    mapA.get(5).add(14);
+    mapA.get(5).add(16);
+    mapA.get(6).add(2);
+    mapA.get(6).add(8);
+    mapA.get(6).add(22);
+    mapA.get(7).add(10);
+    mapA.get(7).add(12);
+    mapA.get(7).add(20);
+    mapA.get(8).add(2);
+    mapA.get(8).add(14);
+    mapA.get(8).add(16);
+    mapA.get(8).add(18);
+    mapA.get(9).add(10);
+    mapA.get(9).add(12);
+    mapA.get(10).add(4);
+    mapA.get(10).add(6);
+    mapA.get(10).add(8);
+    mapA.get(10).add(18);
+    mapA.get(12).add(8);
+    mapA.get(12).add(10);
+    mapA.get(12).add(12);
+    mapA.get(12).add(14);
+    mapA.get(12).add(16);
+    mapA.get(12).add(18);
+    b.addLayer();
+    for (int r=0; r<mapA.size(); r++) {
+      for (int n: mapA.get(r)) {
+        b.addTileTopLayer(r,n,"1.png");
+      }
+    }
   }
 
   private void setupMapA() {
@@ -133,8 +181,8 @@ class Game implements Stage {
       int c = (mX + 3 * layerIndex) / Board.gridCellWidth;
       TileNode[][] layerTiles = b._map.get(layerIndex);
       if (layerTiles[r][c] != null &&
-          !b.isBlockedOnSides(layerTiles[r][c]) &&
-          b._top.contains(layerTiles[r][c])) {
+        !b.isBlockedOnSides(layerTiles[r][c]) &&
+        b._top.contains(layerTiles[r][c])) {
         // User has clicked a tile
         if (selectedTile == null) {
           // This is the first selection in the pair
