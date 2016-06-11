@@ -85,7 +85,7 @@ class Game implements Stage {
   public void createMapA() {
     b.addLayer();
     int[] imgs = scrambledIndices();
-    for (int i=0; i<18; i++) {
+    for (int i=0; i<17; i++) {
       int picInd = (int)(Math.random()*imgs.length);
       int r0, c0, r1, c1;
       do {
@@ -93,14 +93,14 @@ class Game implements Stage {
           r0 = (int)(Math.random() * mapA.size());
         } while (mapA.get(r0).isEmpty());
         c0 = mapA.get(r0).get((int)(Math.random() * mapA.get(r0).size()));
-      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) && b._map.get(0)[r0][c0] != null);
+      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r0][c0] != null);
 
       do {
         do {
           r1 = (int)(Math.random() * mapA.size());
         } while (mapA.get(r1).isEmpty());
         c1 = mapA.get(r1).get((int)(Math.random() * mapA.get(r1).size()));
-      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) && b._map.get(0)[r1][c1] != null);
+      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r1][c1] != null);
       b.addPairTop(picInd, r0, c0, r1, c1);
     }
   }
