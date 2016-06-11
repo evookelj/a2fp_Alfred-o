@@ -35,3 +35,11 @@ Add pics to data for tile design
 2016-06-07
 EV, Busy B, JD
 Start incorporating tile designs into game (and try to debug)
+
+2016-06-09
+EV
+Fix typo in addTileAt() loop that caused occasional crash and add random
+puzzle generator. Add timer and increase size. Make primitive victory screen.
+
+2016-06-11
+Create preset-random game for mapA.
