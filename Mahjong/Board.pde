@@ -14,6 +14,13 @@ class Board {
     mapGridCols = w;
     mapGridRows = h;
   }
+  
+  public boolean isEmpty(int layer, int row) {
+    for (int c=0; c<mapGridCols; c++) {
+      if (_map.get(layer)[row][c] != null) return false;
+    }
+    return true;
+  }
 
   public boolean isSupported(int row, int col) {
     for (int r=row; r<row+TileNode.gridHeight && r<mapGridRows; r++) {
@@ -95,16 +102,16 @@ class Board {
 
   // If a tile is adjacent (even in part) on a tile on its left and to one
   // on its right, it cannot be selected. Top and bottom do not matter.
-  public boolean isBlockedOnSides(TileNode tile) {
-    TileNode[][] layerTiles = _map.get(tile.getLayer());
+  public boolean isBlockedOnSides(int layer, int row, int col) {
+    TileNode[][] layerTiles = _map.get(layer);
     boolean blockedOnLeft = false;
     boolean blockedOnRight = false;
-    for (int r = tile.getRow(); r < tile.getRow() + TileNode.gridHeight; r++) {
+    for (int r = row; r < row + TileNode.gridHeight; r++) {
       // Does not test for out-of-bounds errors on column because no tiles should contact the edges
-      if (layerTiles[r][tile.getCol() - 1] != null) {
+      if (layerTiles[r][col - 1] != null) {
         blockedOnLeft = true;
       }
-      if (layerTiles[r][tile.getCol() + TileNode.gridWidth] != null) {
+      if (layerTiles[r][col + TileNode.gridWidth] != null) {
         blockedOnRight = true;
       }
     }

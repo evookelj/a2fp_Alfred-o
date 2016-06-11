@@ -41,7 +41,9 @@ class Game implements Stage {
 
   private void initMapA() {
     mapA = new ArrayList<ArrayList<Integer>>();
-    for (int i=0; i<b.mapGridRows; i++) { mapA.add(new ArrayList<Integer>()); }
+    for (int i=0; i<b.mapGridRows; i++) { 
+      mapA.add(new ArrayList<Integer>());
+    }
     mapA.get(2).add(8);
     mapA.get(2).add(10);
     mapA.get(2).add(12);
@@ -77,11 +79,29 @@ class Game implements Stage {
     mapA.get(12).add(14);
     mapA.get(12).add(16);
     mapA.get(12).add(18);
+    createMapA();
+  }
+
+  public void createMapA() {
     b.addLayer();
-    for (int r=0; r<mapA.size(); r++) {
-      for (int n: mapA.get(r)) {
-        b.addTileTopLayer(r,n,"1.png");
-      }
+    int[] imgs = scrambledIndices();
+    for (int i=0; i<18; i++) {
+      int picInd = (int)(Math.random()*imgs.length);
+      int r0, c0, r1, c1;
+      do {
+        do {
+          r0 = (int)(Math.random() * mapA.size());
+        } while (mapA.get(r0).isEmpty());
+        c0 = mapA.get(r0).get((int)(Math.random() * mapA.get(r0).size()));
+      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) && b._map.get(0)[r0][c0] != null);
+
+      do {
+        do {
+          r1 = (int)(Math.random() * mapA.size());
+        } while (mapA.get(r1).isEmpty());
+        c1 = mapA.get(r1).get((int)(Math.random() * mapA.get(r1).size()));
+      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) && b._map.get(0)[r1][c1] != null);
+      b.addPairTop(picInd, r0, c0, r1, c1);
     }
   }
 
@@ -181,7 +201,7 @@ class Game implements Stage {
       int c = (mX + 3 * layerIndex) / Board.gridCellWidth;
       TileNode[][] layerTiles = b._map.get(layerIndex);
       if (layerTiles[r][c] != null &&
-        !b.isBlockedOnSides(layerTiles[r][c]) &&
+        !b.isBlockedOnSides(layerIndex, r, c) &&
         b._top.contains(layerTiles[r][c])) {
         // User has clicked a tile
         if (selectedTile == null) {
