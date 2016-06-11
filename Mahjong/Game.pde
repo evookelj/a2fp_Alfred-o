@@ -6,6 +6,7 @@ class Game implements Stage {
   private boolean _randLayout;
   private boolean _quit;
   private ArrayList<ArrayList<Integer>> mapA;
+  private ArrayList[][] mapB;
 
   private final FormerlyButton quitBtn = new FormerlyButton(width - 50, 40, 50, 35);
 
@@ -39,12 +40,50 @@ class Game implements Stage {
     return imgs;
   }
 
+  private void initMapB() {
+    mapB = new ArrayList[3][10];
+    for (int layer=0; layer<3; layer++) {
+      if (layer<2) {
+        for (int r=0; r<10; r++) {
+          if (r==0 || r==8) {
+            mapB[layer][r].add(0);
+            mapB[layer][r].add(2);
+            mapB[layer][r].add(4);
+            mapB[layer][r].add(6);
+            mapB[layer][r].add(8);
+            mapB[layer][r].add(10);
+            mapB[layer][r].add(12);
+            mapB[layer][r].add(14);
+            mapB[layer][r].add(16);
+          }
+          if (r==2 || r==6) {
+            mapB[layer][r].add(0);
+            mapB[layer][r].add(16);
+          }
+          if (r==3 || r==5) {
+            mapB[layer][r].add(4);
+            mapB[layer][r].add(6);
+            mapB[layer][r].add(8);
+            mapB[layer][r].add(10);
+            mapB[layer][r].add(12);
+          }
+        }
+      } else {
+        for (int r=0; r<10; r+= 8) {
+          mapB[layer][r].add(5);
+          mapB[layer][r].add(7);
+          mapB[layer][r].add(9);
+          mapB[layer][r].add(11);
+        }
+      }
+    }
+  }
+
   private void initMapA() {
     mapA = new ArrayList<ArrayList<Integer>>();
     for (int i=0; i<b.mapGridRows; i++) { 
       mapA.add(new ArrayList<Integer>());
     }
-    mapA.get(2).add(8);
     mapA.get(2).add(10);
     mapA.get(2).add(12);
     mapA.get(2).add(14);
@@ -85,7 +124,7 @@ class Game implements Stage {
   public void createMapA() {
     b.addLayer();
     int[] imgs = scrambledIndices();
-    for (int i=0; i<17; i++) {
+    for (int i=0; i<15; i++) {
       int picInd = (int)(Math.random()*imgs.length);
       int r0, c0, r1, c1;
       do {
