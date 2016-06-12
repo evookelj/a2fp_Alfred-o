@@ -139,7 +139,8 @@ class Game implements Stage {
           r1 = (int)(Math.random() * mapA.size());
         } while (mapA.get(r1).isEmpty());
         c1 = mapA.get(r1).get((int)(Math.random() * mapA.get(r1).size()));
-      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r1][c1] != null);
+      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r1][c1] != null
+      || (r1==r0 && c1==c0));
       b.addPairTop(picInd, r0, c0, r1, c1);
     }
   }
