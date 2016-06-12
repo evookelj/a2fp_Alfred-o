@@ -102,6 +102,7 @@ class Board {
 
   // If a tile is adjacent (even in part) on a tile on its left and to one
   // on its right, it cannot be selected. Top and bottom do not matter.
+  // `row` and `col` MUST be the top left row and column of the tile
   public boolean isBlockedOnSides(int layer, int row, int col) {
     TileNode[][] layerTiles = _map.get(layer);
     boolean blockedOnLeft = false;

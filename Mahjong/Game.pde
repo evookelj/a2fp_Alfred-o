@@ -239,29 +239,30 @@ class Game implements Stage {
       int r = (mY + 3 * layerIndex) / Board.gridCellHeight;
       int c = (mX + 3 * layerIndex) / Board.gridCellWidth;
       TileNode[][] layerTiles = b._map.get(layerIndex);
-      if (layerTiles[r][c] != null &&
-        !b.isBlockedOnSides(layerIndex, r, c) &&
-        b._top.contains(layerTiles[r][c])) {
+      if (layerTiles[r][c] == null) {
+        return;
+      }
+      TileNode curSelection = layerTiles[r][c];
+      if (curSelection == selectedTile) {
+        // The user clicked the same tile twice, thus deselecting it
+        selectedTile = null;
+      } else if (!b.isBlockedOnSides(layerIndex, curSelection.getRow(), curSelection.getCol()) &&
+          b._top.contains(curSelection)) {
         // User has clicked a tile
+        println(curSelection._imageName);
         if (selectedTile == null) {
           // This is the first selection in the pair
-          selectedTile = layerTiles[r][c];
+          selectedTile = curSelection;
         } else {
-          if (layerTiles[r][c] == selectedTile) {
-            // The user clicked the same tile twice, thus deselecting it
-            selectedTile = null;
-          } else {
             // The use has requested to match the pair (selectedTile and layerTiles[r][c])
-            if (selectedTile._imageName.equals(layerTiles[r][c]._imageName)) {
+            if (selectedTile._imageName.equals(curSelection._imageName)) {
               b.removeTile(selectedTile);
-              b.removeTile(layerTiles[r][c]);
+              b.removeTile(curSelection);
               selectedTile = null;
             } else {
-              layerTiles[r][c].invalidlySelected();
+              curSelection.invalidlySelected();
             }
-          }
         }
-        return;
       }
     }
   }
