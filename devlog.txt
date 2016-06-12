@@ -43,3 +43,6 @@ puzzle generator. Add timer and increase size. Make primitive victory screen.
 
 2016-06-11
 Create preset-random game for mapA. Create set of valid positions for mapB.
+
+2016-06-12
+Fix occasional odd-one-in bug.
