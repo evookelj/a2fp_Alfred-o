@@ -236,8 +236,8 @@ class Game implements Stage {
         mY += 3 * layerIndex;
         mX += 3 * layerIndex;
       }
-      int r = (mY + 3 * layerIndex) / Board.gridCellHeight;
-      int c = (mX + 3 * layerIndex) / Board.gridCellWidth;
+      int r = mY / Board.gridCellHeight;
+      int c = mX / Board.gridCellWidth;
       TileNode[][] layerTiles = b._map.get(layerIndex);
       if (layerTiles[r][c] == null) {
         return;
