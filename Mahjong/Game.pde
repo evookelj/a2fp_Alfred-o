@@ -5,7 +5,6 @@ class Game implements Stage {
   private int curTime;
   private boolean _randLayout;
   private boolean _quit;
-  private ArrayList<ArrayList<Integer>> mapA;
   private ArrayList[][] mapB;
 
   private final FormerlyButton quitBtn = new FormerlyButton(width - 50, 40, 50, 35);
@@ -20,7 +19,8 @@ class Game implements Stage {
     if (_randLayout) {
       b.puzzleGen();
     } else {
-      initMapA();
+      makeMapB();
+      //initMapA();
       //setupMapA();
     }
     startTime = millis();
@@ -40,88 +40,167 @@ class Game implements Stage {
     return imgs;
   }
 
-  private void initMapB() {
-    mapB = new ArrayList[3][10];
-    for (int layer=0; layer<3; layer++) {
-      if (layer<2) {
-        for (int r=0; r<10; r++) {
-          if (r==0 || r==8) {
-            mapB[layer][r].add(0);
-            mapB[layer][r].add(2);
-            mapB[layer][r].add(4);
-            mapB[layer][r].add(6);
-            mapB[layer][r].add(8);
-            mapB[layer][r].add(10);
-            mapB[layer][r].add(12);
-            mapB[layer][r].add(14);
-            mapB[layer][r].add(16);
-          }
-          if (r==2 || r==6) {
-            mapB[layer][r].add(0);
-            mapB[layer][r].add(16);
-          }
-          if (r==3 || r==5) {
-            mapB[layer][r].add(4);
-            mapB[layer][r].add(6);
-            mapB[layer][r].add(8);
-            mapB[layer][r].add(10);
-            mapB[layer][r].add(12);
-          }
+  private void makeMapB() {
+    ArrayList<int[]> locs = new ArrayList<int[]>();
+    for (int layer=0; layer<2; layer++) {
+      for (int r=0; r<10; r++) {
+        if (r==0 || r==8) {
+          locs.add(new int[] {layer, r, 0});
+          locs.add(new int[] {layer, r, 2});
+          locs.add(new int[] {layer, r, 4});
+          locs.add(new int[] {layer, r, 8});
+          locs.add(new int[] {layer, r, 10});
+          locs.add(new int[] {layer, r, 12});
+          locs.add(new int[] {layer, r, 14});
+          locs.add(new int[] {layer, r, 16});
         }
-      } else {
-        for (int r=0; r<10; r+= 8) {
-          mapB[layer][r].add(5);
-          mapB[layer][r].add(7);
-          mapB[layer][r].add(9);
-          mapB[layer][r].add(11);
+        if (r==2 || r==6) {
+          locs.add(new int[] {layer, r, 0});
+          locs.add(new int[] {layer, r, 16});
+        }
+        if (r==3 || r==5) {
+          locs.add(new int[] {layer, r, 4});
+          locs.add(new int[] {layer, r, 6});
+          locs.add(new int[] {layer, r, 8});
+          locs.add(new int[] {layer, r, 10});
+          locs.add(new int[] {layer, r, 12});
         }
       }
     }
+    for (int r=0; r<10; r+= 8) {
+      locs.add(new int[] {2, r, 5});
+      locs.add(new int[] {2, r, 7});
+      locs.add(new int[] {2, r, 9});
+      locs.add(new int[] {2, r, 11});
+    }
+    b.addLayer();
+    b.addLayer();
+    b.addLayer();
+    startMap(locs);
+  }
+
+  private void addLoc(ArrayList<int[]> locs, int row, int col) {
+    locs.add(new int[] {0, row, col});
+  }
+  public void makeMapA() {
+    // Each entry in locs is of the form: {layer, row, col}
+    ArrayList<int[]> locs = new ArrayList<int[]>();
+    addLoc(locs, 2, 10);
+    addLoc(locs, 2, 12);
+    addLoc(locs, 2, 14);
+    addLoc(locs, 3, 16);
+    addLoc(locs, 3, 18);
+    addLoc(locs, 3, 20);
+    addLoc(locs, 4, 8);
+    addLoc(locs, 4, 22);
+    addLoc(locs, 5, 6);
+    addLoc(locs, 5, 12);
+    addLoc(locs, 5, 14);
+    addLoc(locs, 5, 16);
+    addLoc(locs, 6, 2);
+    addLoc(locs, 6, 8);
+    addLoc(locs, 6, 22);
+    addLoc(locs, 7, 10);
+    addLoc(locs, 7, 12);
+    addLoc(locs, 7, 20);
+    addLoc(locs, 8, 2);
+    addLoc(locs, 8, 14);
+    addLoc(locs, 8, 16);
+    addLoc(locs, 8, 18);
+    addLoc(locs, 9, 10);
+    addLoc(locs, 9, 12);
+    addLoc(locs, 10, 4);
+    addLoc(locs, 10, 6);
+    addLoc(locs, 10, 8);
+    addLoc(locs, 10, 18);
+    addLoc(locs, 12, 8);
+    addLoc(locs, 12, 10);
+    addLoc(locs, 12, 12);
+    addLoc(locs, 12, 14);
+    addLoc(locs, 12, 16);
+    addLoc(locs, 12, 18);
+    startMap(locs);
   }
 
   private void initMapA() {
-    mapA = new ArrayList<ArrayList<Integer>>();
+    // mapA is a list of rows, each containing a list of columns, where there is a tile at each row, col pair
+    ArrayList<ArrayList<Integer>> rows = new ArrayList<ArrayList<Integer>>();
     for (int i=0; i<b.mapGridRows; i++) { 
-      mapA.add(new ArrayList<Integer>());
+      rows.add(new ArrayList<Integer>());
     }
-    mapA.get(2).add(10);
-    mapA.get(2).add(12);
-    mapA.get(2).add(14);
-    mapA.get(3).add(16);
-    mapA.get(3).add(18);
-    mapA.get(3).add(20);
-    mapA.get(4).add(8);
-    mapA.get(4).add(22);
-    mapA.get(5).add(6);
-    mapA.get(5).add(12);
-    mapA.get(5).add(14);
-    mapA.get(5).add(16);
-    mapA.get(6).add(2);
-    mapA.get(6).add(8);
-    mapA.get(6).add(22);
-    mapA.get(7).add(10);
-    mapA.get(7).add(12);
-    mapA.get(7).add(20);
-    mapA.get(8).add(2);
-    mapA.get(8).add(14);
-    mapA.get(8).add(16);
-    mapA.get(8).add(18);
-    mapA.get(9).add(10);
-    mapA.get(9).add(12);
-    mapA.get(10).add(4);
-    mapA.get(10).add(6);
-    mapA.get(10).add(8);
-    mapA.get(10).add(18);
-    mapA.get(12).add(8);
-    mapA.get(12).add(10);
-    mapA.get(12).add(12);
-    mapA.get(12).add(14);
-    mapA.get(12).add(16);
-    mapA.get(12).add(18);
-    createMapA();
+    rows.get(2).add(10);
+    rows.get(2).add(12);
+    rows.get(2).add(14);
+    rows.get(3).add(16);
+    rows.get(3).add(18);
+    rows.get(3).add(20);
+    rows.get(4).add(8);
+    rows.get(4).add(22);
+    rows.get(5).add(6);
+    rows.get(5).add(12);
+    rows.get(5).add(14);
+    rows.get(5).add(16);
+    rows.get(6).add(2);
+    rows.get(6).add(8);
+    rows.get(6).add(22);
+    rows.get(7).add(10);
+    rows.get(7).add(12);
+    rows.get(7).add(20);
+    rows.get(8).add(2);
+    rows.get(8).add(14);
+    rows.get(8).add(16);
+    rows.get(8).add(18);
+    rows.get(9).add(10);
+    rows.get(9).add(12);
+    rows.get(10).add(4);
+    rows.get(10).add(6);
+    rows.get(10).add(8);
+    rows.get(10).add(18);
+    rows.get(12).add(8);
+    rows.get(12).add(10);
+    rows.get(12).add(12);
+    rows.get(12).add(14);
+    rows.get(12).add(16);
+    rows.get(12).add(18);
+    createMapA(rows);
   }
 
-  public void createMapA() {
+  public int[] pickLocation(ArrayList<int[]> locs) {
+    int locsI, l0, r0, c0;
+    while (true) {
+      locsI = (int) (Math.random() * locs.size());
+      l0 = locs.get(locsI)[0];
+      r0 = locs.get(locsI)[1];
+      c0 = locs.get(locsI)[2];
+      print("At " + millis() + ", trying " + l0 + ", " + r0 + ", " + c0);
+      if (b.isFullySupported(l0, r0, c0)) {
+        print(". It's fully supported");
+        if (b.isEmpty(l0, r0) || b.isBlockedOneSide(l0, r0, c0)) {
+          println(". Row empty or pos adjacent. Good!\n");
+          break;
+        }
+      }
+      print("\n");
+    }// while ( || (!b.isEmpty(l0, r0) && !b.isBlockedOneSide(l0, r0, c0)));
+    // Now, REMOVE the chosen location, so it is never chosen again
+    return locs.remove(locsI);
+  }
+
+  public void startMap(ArrayList<int[]> locs) {
+    b.addLayer();
+    int[] imgs = scrambledIndices();
+    while (!locs.isEmpty()) {
+      System.out.println("locs.size() is " + locs.size() + ". Adding one " + millis());
+      int picInd = (int)(Math.random() * imgs.length);
+      print("A: ");
+      int[] locA = pickLocation(locs);
+      print("B: ");
+      int[] locB = pickLocation(locs);
+      b.addLocPair(picInd, locA, locB);
+    }
+  }
+
+  public void createMapA(ArrayList<ArrayList<Integer>> mapA) {
     b.addLayer();
     int[] imgs = scrambledIndices();
     for (int i=0; i<15; i++) {
@@ -142,29 +221,6 @@ class Game implements Stage {
       } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r1][c1] != null);
       b.addPairTop(picInd, r0, c0, r1, c1);
     }
-  }
-
-  private void setupMapA() {
-    int[] imgs = scrambledIndices();
-    b.addLayer();
-    b.addPairTop(imgs[2], 2, 8, 6, 22);
-    b.addPairTop(imgs[0], 2, 10, 6, 2);
-    b.addPairTop(imgs[3], 2, 12, 5, 4);
-    b.addPairTop(imgs[5], 3, 16, 7, 10);
-    b.addPairTop(imgs[4], 2, 14, 5, 14);
-    b.addPairTop(imgs[6], 4, 22, 5, 6);
-    b.addPairTop(imgs[6], 3, 18, 12, 10);
-    b.addPairTop(imgs[7], 3, 20, 12, 16);
-    b.addPairTop(imgs[8], 5, 16, 8, 16);
-    b.addPairTop(imgs[9], 5, 12, 4, 8);
-    b.addPairTop(imgs[10], 6, 8, 10, 4);
-    b.addPairTop(imgs[11], 8, 2, 12, 8);
-    b.addPairTop(imgs[12], 8, 14, 10, 6);
-    b.addPairTop(imgs[13], 10, 8, 9, 10);
-    b.addPairTop(imgs[14], 7, 12, 9, 12);
-    b.addPairTop(imgs[15], 8, 18, 12, 18);
-    b.addPairTop(imgs[16], 12, 12, 12, 14);
-    b.addPairTop(imgs[17], 10, 18, 7, 20);
   }
 
   public void drawFrame() {

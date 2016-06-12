@@ -100,23 +100,51 @@ class Board {
     }
   }
 
-  // If a tile is adjacent (even in part) on a tile on its left and to one
-  // on its right, it cannot be selected. Top and bottom do not matter.
-  // `row` and `col` MUST be the top left row and column of the tile
-  public boolean isBlockedOnSides(int layer, int row, int col) {
+  // For all isBlocked* methods, `row` and `col` MUST be the top left row and column of the tile
+  public boolean isBlockedOnLeft(int layer, int row, int col) {
     TileNode[][] layerTiles = _map.get(layer);
-    boolean blockedOnLeft = false;
-    boolean blockedOnRight = false;
     for (int r = row; r < row + TileNode.gridHeight; r++) {
-      // Does not test for out-of-bounds errors on column because no tiles should contact the edges
-      if (layerTiles[r][col - 1] != null) {
-        blockedOnLeft = true;
-      }
-      if (layerTiles[r][col + TileNode.gridWidth] != null) {
-        blockedOnRight = true;
+      if (col > 0 && layerTiles[r][col - 1] != null) {
+        return true;
       }
     }
-    return blockedOnLeft && blockedOnRight;
+    return false;
+  }
+
+  public boolean isBlockedOnRight(int layer, int row, int col) {
+    TileNode[][] layerTiles = _map.get(layer);
+    for (int r = row; r < row + TileNode.gridHeight; r++) {
+      if (col + TileNode.gridWidth < layerTiles[r].length && layerTiles[r][col + TileNode.gridWidth] != null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // If a tile is adjacent (even in part) on a tile on its left and to one
+  // on its right, it cannot be selected. Top and bottom do not matter.
+  public boolean isBlockedOnSides(int layer, int row, int col) {
+    return isBlockedOnLeft(layer, row, col) && isBlockedOnRight(layer, row, col);
+  }
+
+  public boolean isBlockedOneSide(int layer, int row, int col) {
+    return isBlockedOnLeft(layer, row, col) || isBlockedOnRight(layer, row, col);
+  }
+
+  // Would a tile at row, col be fully supported from below? 
+  public boolean isFullySupported(int layer, int row, int col) {
+    if (layer == 0) {
+      return true;
+    }
+    TileNode[][] under = _map.get(layer - 1);
+    for (int r = row; r < row + TileNode.gridHeight; r++) {
+      for (int c = col; c < col + TileNode.gridWidth; c++) {
+        if (under[r][c] == null) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   // Add a vertically oriented TileNode at grid position row tlRow, column tlCol
@@ -152,6 +180,19 @@ class Board {
 
   public void addLayer() {
     _map.add(new TileNode[mapGridRows][mapGridCols]);
+  }
+
+  public void addLocPair(int albumIndex, int[] locA, int[] locB) {
+    String fileName = albumIndex + ".png";
+    TileNode tileA = new TileNode(_top, locA[1], locA[2], locA[0], fileName);
+    TileNode tileB = new TileNode(_top, locB[1], locB[2], locB[0], fileName);
+    println("Finna add tileA");
+    addTileAt(tileA, locA[1], locA[2], locA[0]);
+    _top.add(tileA);
+    println("Finna add tileB");
+    addTileAt(tileB, locB[1], locB[2], locB[0]);
+    _top.add(tileB);
+    println("Done adding");
   }
 
   public void addPairTop(int albumIndex, int r0, int c0, int r1, int c1) {
