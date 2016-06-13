@@ -30,20 +30,27 @@ class TileNode {
     float w = (float)Board.gridCellWidth * gridWidth;
     float h = (float) Board.gridCellHeight * gridHeight;
     if (SHIFT) {
-      x -= _layer * 3;
-      y -= _layer * 3;
+      x -= SHIFT_AMT * _layer;
+      y -= SHIFT_AMT * _layer;
     }
 
     // Right and lower sides of the tile, for perspective:
     pushStyle();
     stroke(color(100, 100, 150));
     fill(color(145, 145, 200));
-    rect(x + 3, y + 3, w, h, 8.0);
+    rect(x + SHIFT_AMT, y + SHIFT_AMT, w, h, 8.0);
     popStyle();
 
     // Tile top face (shape and album cover):
+    pushStyle();
+    noStroke();
     rect(x, y, w, h, 8.0);
+    popStyle();
     image(_image, x + (float)Board.gridCellWidth * 0.06, y + (float)Board.gridCellHeight * 0.25, (float)Board.gridCellWidth * 1.9, (float) Board.gridCellWidth * 1.9);
+    pushStyle();
+    noFill();
+    rect(x, y, w, h, 8.0);
+    popStyle();
   }
 
   private void drawPlain() {

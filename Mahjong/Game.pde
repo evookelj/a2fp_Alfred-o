@@ -84,7 +84,7 @@ class Game implements Stage {
 
   private void createMapB(ArrayList[][] mapB) {
     int l0count = 9;
-    int l1count = 7;
+    int l1count = 6;
     b.addLayer();
     int[] imgs = scrambledIndices();
     while (l0count > 0) {
@@ -223,7 +223,9 @@ class Game implements Stage {
   }
 
   public void handleKeyPressed() {
-    SHIFT = !SHIFT;
+    if (DEBUG_MODE) {
+      SHIFT = !SHIFT;
+    }
   }
   public void handleMouseClicked() {
     if (quitBtn.contains(mouseX, mouseY)) {
@@ -234,8 +236,8 @@ class Game implements Stage {
     int mX = mouseX;
     for (int layerIndex = b._map.size()-1; layerIndex >= 0; layerIndex--) {
       if (SHIFT) {
-        mY += 3 * layerIndex;
-        mX += 3 * layerIndex;
+        mY += SHIFT_AMT * layerIndex;
+        mX += SHIFT_AMT * layerIndex;
       }
       int r = mY / Board.gridCellHeight;
       int c = mX / Board.gridCellWidth;

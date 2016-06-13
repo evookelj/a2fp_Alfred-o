@@ -1,5 +1,6 @@
 boolean DEBUG_MODE = false;
 boolean SHIFT = true; // Shift tiles in upper layers for perspective effect
+int SHIFT_AMT = 4;
 
 Stage stage;
 
