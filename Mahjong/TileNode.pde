@@ -33,12 +33,6 @@ class TileNode {
       x -= _layer * 3;
       y -= _layer * 3;
     }
-    /* Shadow:
-    pushStyle();
-    noStroke();
-    fill(color(100, 100, 100, 50));
-    rect(x - 5, y - 5, w, h, 8.0);
-    popStyle();*/
 
     // Right and lower sides of the tile, for perspective:
     pushStyle();

@@ -86,8 +86,8 @@ class Game implements Stage {
   }
 
   private void createMapB() {
-    int l0count = 13;
-    int l1count = 1;
+    int l0count = 10;
+    int l1count = 7;
     b.addLayer();
     int[] imgs = scrambledIndices();
     while (l0count > 0) {
@@ -99,7 +99,7 @@ class Game implements Stage {
         } while (mapB[0][r0].isEmpty());
         int c0ind = (int)(Math.random() * mapB[0][r0].size());
         c0 = (Integer)mapB[0][r0].get(c0ind);
-      } while ((!b.isEmpty(0, r0) && !b.isBlockedOneSide(0, r0, c0)) || b._map.get(0)[r0][c0] != null);
+      } while ((!b.isEmpty(0, r0) && (r0 == 4 || r0 == 8 || !b.isBlockedOneSide(0, r0, c0))) || b._map.get(0)[r0][c0] != null);
 
       do {
         do {
@@ -107,7 +107,7 @@ class Game implements Stage {
         } while (mapB[0][r1].isEmpty());
         int c1ind = (int)(Math.random() * mapB[0][r1].size());
         c1 = (Integer)mapB[0][r1].get(c1ind);
-      } while ((!b.isEmpty(0, r1) && !b.isBlockedOneSide(0, r1, c1)) || b._map.get(0)[r1][c1] != null || (r1==r0 && c1==c0));
+      } while ((!b.isEmpty(0, r1) && (r1 == 4 || r1 == 8 || !b.isBlockedOneSide(0, r1, c1))) || b._map.get(0)[r1][c1] != null || (r1==r0 && c1==c0));
       b.addPairTop(picInd, r0, c0, r1, c1);
       mapB[0][r0].remove(new Integer(c0));
       println("r1 " + r1 + " c1 " + c1);
@@ -115,10 +115,11 @@ class Game implements Stage {
       l0count--;
     }
     if (l1count > 0) { b.addLayer(); }
-    /*while (l1count > 0) {
+    while (l1count > 0) {
       println("onward");
       int picInd = (int)(Math.random()*imgs.length);
       int r0, c0, r1, c1;
+      // The first in the pair is in the first layer
       do {
         do {
           r0 = (int)(Math.random() * mapB[0].length);
@@ -126,7 +127,7 @@ class Game implements Stage {
         int c0ind = (int)(Math.random() * mapB[0][r0].size());
         c0 = (Integer)mapB[0][r0].get(c0ind);
         println("trying an option (tile 0)");
-      } while ((!b.isEmpty(0, r0) && !b.isBlockedOneSide(0, r0, c0)) || b._map.get(0)[r0][c0] != null);
+      } while ((!b.isEmpty(0, r0) && (r0 == 4 || r0 == 8 || !b.isBlockedOneSide(0, r0, c0))) || b._map.get(0)[r0][c0] != null);
 
       do {
         do {
@@ -135,7 +136,7 @@ class Game implements Stage {
         int c1ind = (int)(Math.random() * mapB[1][r1].size());
         c1 = (Integer)mapB[1][r1].get(c1ind);
         println("trying an option (tile 1)");
-      } while ((!b.isEmpty(1, r1) && !b.isBlockedOneSide(1, r1, c1)) || b._map.get(1)[r1][c1] != null || !b.isSupported(r1,c1));
+      } while ((!b.isEmpty(1, r1) && (r1 == 4 || r1 == 8 || !b.isBlockedOneSide(0, r1, c1))) || b._map.get(1)[r1][c1] != null || !b.isFullySupported(1, r1,c1));
 
       b.addTileAt(new TileNode(b._top, r0, c0, 0, picInd + ".png"), r0, c0, 0);
       b.addTileTopLayer(r1, c1, picInd + ".png");
@@ -144,7 +145,7 @@ class Game implements Stage {
       println("r1 " + r1 + " c1 " + c1);
       mapB[1][r1].remove(new Integer(c1));
       l1count--;
-    }//*/
+    }
   }
 
   private void initMapA() {

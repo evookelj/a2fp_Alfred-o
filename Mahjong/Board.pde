@@ -22,6 +22,21 @@ class Board {
     return true;
   }
 
+  public boolean isFullySupported(int layer, int row, int col) {
+    if (layer == 0) {
+      return true; // In layer 0, it is supported by the "table"
+    }
+    // Otherwise, check the layer below
+    for (int r=row; r<row+TileNode.gridHeight && r<mapGridRows; r++) {
+      for (int c=col; c<col+TileNode.gridWidth && c<mapGridCols; c++) {
+        if (_map.get(layer - 1)[r][c] == null) { 
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   public boolean isSupported(int row, int col) {
     for (int r=row; r<row+TileNode.gridHeight && r<mapGridRows; r++) {
       for (int c=col; c<col+TileNode.gridWidth && c<mapGridCols; c++) {
