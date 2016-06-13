@@ -20,8 +20,8 @@ class Game implements Stage {
     if (_randLayout) {
       b.puzzleGen();
     } else {
-      initMapA();
-      //setupMapA();
+      initMapB();
+      //initMapA();
     }
     startTime = millis();
   }
@@ -41,12 +41,16 @@ class Game implements Stage {
   }
 
   private void initMapB() {
-    mapB = new ArrayList[3][10];
+    mapB = new ArrayList[3][12];
+    for (int l=0; l<mapB.length; l++) {
+      for (int r=0; r<mapB[l].length; r++) {
+        mapB[l][r] = new ArrayList();
+      }
+    }
     for (int layer=0; layer<3; layer++) {
       if (layer<2) {
-        for (int r=0; r<10; r++) {
-          if (r==0 || r==8) {
-            mapB[layer][r].add(0);
+        for (int r=2; r<12; r++) {
+          if (r==2 || r==10) {
             mapB[layer][r].add(2);
             mapB[layer][r].add(4);
             mapB[layer][r].add(6);
@@ -55,27 +59,89 @@ class Game implements Stage {
             mapB[layer][r].add(12);
             mapB[layer][r].add(14);
             mapB[layer][r].add(16);
+            mapB[layer][r].add(18);
           }
-          if (r==2 || r==6) {
-            mapB[layer][r].add(0);
-            mapB[layer][r].add(16);
+          if (r==4 || r==8) {
+            mapB[layer][r].add(2);
+            mapB[layer][r].add(18);
           }
-          if (r==3 || r==5) {
-            mapB[layer][r].add(4);
+          if (r==5 || r==7) {
             mapB[layer][r].add(6);
             mapB[layer][r].add(8);
             mapB[layer][r].add(10);
             mapB[layer][r].add(12);
+            mapB[layer][r].add(14);
           }
         }
       } else {
-        for (int r=0; r<10; r+= 8) {
-          mapB[layer][r].add(5);
+        for (int r=2; r<12; r+= 8) {
           mapB[layer][r].add(7);
           mapB[layer][r].add(9);
           mapB[layer][r].add(11);
+          mapB[layer][r].add(13);
         }
       }
+    }
+    createMapB();
+  }
+
+  private void createMapB() {
+    int l0count = 10;
+    int l1count = 1;
+    b.addLayer();
+    int[] imgs = scrambledIndices();
+    while (l0count > 0) {
+      int picInd = (int)(Math.random()*(imgs.length-1));
+      int r0, c0, r1, c1, c0ind, c1ind;
+      do {
+        do {
+          r0 = (int)(Math.random() * (mapB[0].length-1));
+        } while (mapB[0][r0].isEmpty());
+        c0ind = (int)(Math.random() * (mapB[0][r0].size()-1));
+        c0 = (Integer)mapB[0][r0].get(c0ind);
+      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r0][c0] != null);
+
+      do {
+        do {
+          r1 = (int)(Math.random() * (mapB[0].length-1));
+        } while (mapB[0][r1].isEmpty());
+        c1ind = (int)(Math.random() * (mapB[0][r1].size()-1));
+        c1 = (Integer)mapB[0][r1].get(c1ind);
+      } while (!b.isEmpty(0, r1) && b.isBlockedOnSides(0, r1, c1) || b._map.get(0)[r1][c1] != null
+        || (r1==r0 && c1==c0));
+      b.addPairTop(picInd, r0, c0, r1, c1);
+      mapB[0][r0].remove(c0ind);
+      println("r1 " + r1 + " c1 " + c1);
+      mapB[0][r1].remove(c1ind);
+      l0count--;
+    }
+    if (l1count > 0) { b.addLayer(); }
+    while (l1count > 0) {
+      println("onward");
+      int picInd = (int)(Math.random()*imgs.length);
+      int r0, c0, r1, c1, c0ind, c1ind;
+      do {
+        do {
+          r0 = (int)(Math.random() * (mapB[0].length-1));
+        } while (mapB[0][r0].isEmpty());
+        c0ind = (int)(Math.random() * (mapB[0][r0].size()-1));
+        c0 = (Integer)mapB[0][r0].get(c0ind);
+      } while ((!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0)) || b._map.get(0)[r0][c0] != null);
+
+      do {
+        do {
+          r1 = (int)(Math.random() * mapB[1].length);
+        } while (mapB[1][r1].isEmpty());
+        c1ind = (int)(Math.random() * (mapB[1][r1].size()-1));
+        c1 = (Integer)mapB[1][r1].get(c1ind);
+      } while ((!b.isEmpty(1, r1) && b.isBlockedOnSides(1, r1, c1)) 
+      || b._map.get(1)[r1][c1] != null || !b.isSupported(r1,c1));
+      b.addTileAt(new TileNode(b._top, r0, c0, 0, picInd + ".png"), r0, c0, 0);
+      b.addTileTopLayer(r1, c1, picInd + ".png"); 
+      mapB[0][r0].remove(c0ind);
+      println("r1 " + r1 + " c1 " + c1);
+      mapB[1][r1].remove(c1ind);
+      l1count--;
     }
   }
 
@@ -126,21 +192,25 @@ class Game implements Stage {
     int[] imgs = scrambledIndices();
     for (int i=0; i<15; i++) {
       int picInd = (int)(Math.random()*imgs.length);
-      int r0, c0, r1, c1;
+      int r0, c0, r1, c1, c0ind, c1ind;
       do {
         do {
           r0 = (int)(Math.random() * mapA.size());
         } while (mapA.get(r0).isEmpty());
-        c0 = mapA.get(r0).get((int)(Math.random() * mapA.get(r0).size()));
+        c0ind = (int)(Math.random() * (mapA.get(r0).size()-1));
+        c0 = mapA.get(r0).get(c0ind);
       } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r0][c0] != null);
 
       do {
         do {
           r1 = (int)(Math.random() * mapA.size());
         } while (mapA.get(r1).isEmpty());
-        c1 = mapA.get(r1).get((int)(Math.random() * mapA.get(r1).size()));
+        c1ind = (int)(Math.random() * (mapA.get(r1).size()-1));
+        c1 = mapA.get(r1).get(c1ind);
       } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r1][c1] != null
-      || (r1==r0 && c1==c0));
+        || (r1==r0 && c1==c0));
+      mapA.get(r0).remove(c0ind);
+      mapA.get(r1).remove(c1ind);
       b.addPairTop(picInd, r0, c0, r1, c1);
     }
   }
@@ -248,21 +318,21 @@ class Game implements Stage {
         // The user clicked the same tile twice, thus deselecting it
         selectedTile = null;
       } else if (!b.isBlockedOnSides(layerIndex, curSelection.getRow(), curSelection.getCol()) &&
-          b._top.contains(curSelection)) {
+        b._top.contains(curSelection)) {
         // User has clicked a tile
         println(curSelection._imageName);
         if (selectedTile == null) {
           // This is the first selection in the pair
           selectedTile = curSelection;
         } else {
-            // The use has requested to match the pair (selectedTile and layerTiles[r][c])
-            if (selectedTile._imageName.equals(curSelection._imageName)) {
-              b.removeTile(selectedTile);
-              b.removeTile(curSelection);
-              selectedTile = null;
-            } else {
-              curSelection.invalidlySelected();
-            }
+          // The use has requested to match the pair (selectedTile and layerTiles[r][c])
+          if (selectedTile._imageName.equals(curSelection._imageName)) {
+            b.removeTile(selectedTile);
+            b.removeTile(curSelection);
+            selectedTile = null;
+          } else {
+            curSelection.invalidlySelected();
+          }
         }
       }
     }

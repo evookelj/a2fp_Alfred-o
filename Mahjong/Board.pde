@@ -109,6 +109,7 @@ class Board {
     boolean blockedOnRight = false;
     for (int r = row; r < row + TileNode.gridHeight; r++) {
       // Does not test for out-of-bounds errors on column because no tiles should contact the edges
+      if (col-1<0) { return true; }
       if (layerTiles[r][col - 1] != null) {
         blockedOnLeft = true;
       }
