@@ -3,25 +3,22 @@ class Game implements Stage {
   private TileNode selectedTile;
   private int startTime;
   private int curTime;
-  private boolean _randLayout;
+  private boolean _useLayoutB;
   private boolean _quit;
-  private ArrayList<ArrayList<Integer>> mapA;
-  private ArrayList[][] mapB;
 
   private final FormerlyButton quitBtn = new FormerlyButton(width - 50, 40, 50, 35);
 
-  public Game(boolean random) {
-    _randLayout = random;
+  public Game(boolean useLayoutB) {
+    _useLayoutB = useLayoutB;
   }
 
   // This is run on the first frame:
   public void init() {
     b = new Board(width / Board.gridCellWidth, height / Board.gridCellHeight);
-    if (_randLayout) {
-      b.puzzleGen();
-    } else {
+    if (_useLayoutB) {
       initMapB();
-      //initMapA();
+    } else {
+      setupMapA();
     }
     startTime = millis();
   }
@@ -41,7 +38,7 @@ class Game implements Stage {
   }
 
   private void initMapB() {
-    mapB = new ArrayList[3][12];
+    ArrayList[][] mapB = new ArrayList[3][12];
     for (int l=0; l<mapB.length; l++) {
       for (int r=0; r<mapB[l].length; r++) {
         mapB[l][r] = new ArrayList();
@@ -82,11 +79,11 @@ class Game implements Stage {
         }
       }
     }
-    createMapB();
+    createMapB(mapB);
   }
 
-  private void createMapB() {
-    int l0count = 10;
+  private void createMapB(ArrayList[][] mapB) {
+    int l0count = 9;
     int l1count = 7;
     b.addLayer();
     int[] imgs = scrambledIndices();
@@ -145,76 +142,6 @@ class Game implements Stage {
       println("r1 " + r1 + " c1 " + c1);
       mapB[1][r1].remove(new Integer(c1));
       l1count--;
-    }
-  }
-
-  private void initMapA() {
-    mapA = new ArrayList<ArrayList<Integer>>();
-    for (int i=0; i<b.mapGridRows; i++) { 
-      mapA.add(new ArrayList<Integer>());
-    }
-    mapA.get(2).add(10);
-    mapA.get(2).add(12);
-    mapA.get(2).add(14);
-    mapA.get(3).add(16);
-    mapA.get(3).add(18);
-    mapA.get(3).add(20);
-    mapA.get(4).add(8);
-    mapA.get(4).add(22);
-    mapA.get(5).add(6);
-    mapA.get(5).add(12);
-    mapA.get(5).add(14);
-    mapA.get(5).add(16);
-    mapA.get(6).add(2);
-    mapA.get(6).add(8);
-    mapA.get(6).add(22);
-    mapA.get(7).add(10);
-    mapA.get(7).add(12);
-    mapA.get(7).add(20);
-    mapA.get(8).add(2);
-    mapA.get(8).add(14);
-    mapA.get(8).add(16);
-    mapA.get(8).add(18);
-    mapA.get(9).add(10);
-    mapA.get(9).add(12);
-    mapA.get(10).add(4);
-    mapA.get(10).add(6);
-    mapA.get(10).add(8);
-    mapA.get(10).add(18);
-    mapA.get(12).add(8);
-    mapA.get(12).add(10);
-    mapA.get(12).add(12);
-    mapA.get(12).add(14);
-    mapA.get(12).add(16);
-    mapA.get(12).add(18);
-    createMapA();
-  }
-
-  public void createMapA() {
-    b.addLayer();
-    int[] imgs = scrambledIndices();
-    for (int i=0; i<15; i++) {
-      int picInd = (int)(Math.random()*imgs.length);
-      int r0, c0, r1, c1, c0ind, c1ind;
-      do {
-        do {
-          r0 = (int)(Math.random() * mapA.size());
-        } while (mapA.get(r0).isEmpty());
-        c0ind = (int)(Math.random() * (mapA.get(r0).size()-1));
-        c0 = mapA.get(r0).get(c0ind);
-      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r0][c0] != null);
-
-      do {
-        do {
-          r1 = (int)(Math.random() * mapA.size());
-        } while (mapA.get(r1).isEmpty());
-        c1ind = (int)(Math.random() * (mapA.get(r1).size()-1));
-        c1 = mapA.get(r1).get(c1ind);
-      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r1][c1] != null
-        || (r1==r0 && c1==c0));
-      mapA.get(r0).remove(c0ind);
-      mapA.get(r1).remove(c1ind);
-      b.addPairTop(picInd, r0, c0, r1, c1);
     }
   }
 

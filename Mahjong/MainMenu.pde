@@ -1,7 +1,7 @@
 class MainMenu implements Stage {
 
-  private final FormerlyButton playBtn = new FormerlyButton(width / 2, height / 2 - 10.0, 260.0, 80.0);
-  private final FormerlyButton randomBtn = new FormerlyButton(width / 2, height / 2 + 120.0, 260.0, 80.0);
+  private final FormerlyButton easierBtn = new FormerlyButton(width / 2, height / 2 - 10.0, 260.0, 80.0);
+  private final FormerlyButton harderBtn = new FormerlyButton(width / 2, height / 2 + 120.0, 260.0, 80.0);
 
   private int _play;
 
@@ -19,13 +19,13 @@ class MainMenu implements Stage {
     textSize(40.0);
     if (_play > 0) {
       fill(stdPurple);
-      text("Starting...", playBtn._cx, playBtn._cy - 5);
+      text("Starting...", easierBtn._cx, easierBtn._cy - 5);
     } else {
-      playBtn.draw();
-      randomBtn.draw();
+      easierBtn.draw();
+      harderBtn.draw();
       fill(stdPurple);
-      text("Play a Preset", playBtn._cx, playBtn._cy - 5);
-      text("Play Random", randomBtn._cx, randomBtn._cy - 5);
+      text("Play Easy", easierBtn._cx, easierBtn._cy - 5);
+      text("Play Hard", harderBtn._cx, harderBtn._cy - 5);
     }
   }
 
@@ -39,9 +39,9 @@ class MainMenu implements Stage {
 
   public void handleMouseClicked() {
     println("Handling mouse click");
-    if (playBtn.contains(mouseX, mouseY)) {
+    if (easierBtn.contains(mouseX, mouseY)) {
       _play = 2;
-    } else if (randomBtn.contains(mouseX, mouseY)) {
+    } else if (harderBtn.contains(mouseX, mouseY)) {
       _play = 1;
     }
   }
