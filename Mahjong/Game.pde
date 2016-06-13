@@ -243,7 +243,7 @@ class Game implements Stage {
       int c = mX / Board.gridCellWidth;
       TileNode[][] layerTiles = b._map.get(layerIndex);
       if (layerTiles[r][c] == null) {
-        return;
+        continue;
       }
       TileNode curSelection = layerTiles[r][c];
       if (curSelection == selectedTile) {
