@@ -86,63 +86,65 @@ class Game implements Stage {
   }
 
   private void createMapB() {
-    int l0count = 10;
+    int l0count = 13;
     int l1count = 1;
     b.addLayer();
     int[] imgs = scrambledIndices();
     while (l0count > 0) {
-      int picInd = (int)(Math.random()*(imgs.length-1));
-      int r0, c0, r1, c1, c0ind, c1ind;
+      int picInd = (int)(Math.random() * imgs.length);
+      int r0, c0, r1, c1;
       do {
         do {
-          r0 = (int)(Math.random() * (mapB[0].length-1));
+          r0 = (int)(Math.random() * mapB[0].length);
         } while (mapB[0][r0].isEmpty());
-        c0ind = (int)(Math.random() * (mapB[0][r0].size()-1));
+        int c0ind = (int)(Math.random() * mapB[0][r0].size());
         c0 = (Integer)mapB[0][r0].get(c0ind);
-      } while (!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0) || b._map.get(0)[r0][c0] != null);
+      } while ((!b.isEmpty(0, r0) && !b.isBlockedOneSide(0, r0, c0)) || b._map.get(0)[r0][c0] != null);
 
       do {
         do {
-          r1 = (int)(Math.random() * (mapB[0].length-1));
+          r1 = (int)(Math.random() * mapB[0].length);
         } while (mapB[0][r1].isEmpty());
-        c1ind = (int)(Math.random() * (mapB[0][r1].size()-1));
+        int c1ind = (int)(Math.random() * mapB[0][r1].size());
         c1 = (Integer)mapB[0][r1].get(c1ind);
-      } while (!b.isEmpty(0, r1) && b.isBlockedOnSides(0, r1, c1) || b._map.get(0)[r1][c1] != null
-        || (r1==r0 && c1==c0));
+      } while ((!b.isEmpty(0, r1) && !b.isBlockedOneSide(0, r1, c1)) || b._map.get(0)[r1][c1] != null || (r1==r0 && c1==c0));
       b.addPairTop(picInd, r0, c0, r1, c1);
-      mapB[0][r0].remove(c0ind);
+      mapB[0][r0].remove(new Integer(c0));
       println("r1 " + r1 + " c1 " + c1);
-      mapB[0][r1].remove(c1ind);
+      mapB[0][r1].remove(new Integer(c1));
       l0count--;
     }
     if (l1count > 0) { b.addLayer(); }
-    while (l1count > 0) {
+    /*while (l1count > 0) {
       println("onward");
       int picInd = (int)(Math.random()*imgs.length);
-      int r0, c0, r1, c1, c0ind, c1ind;
+      int r0, c0, r1, c1;
       do {
         do {
-          r0 = (int)(Math.random() * (mapB[0].length-1));
+          r0 = (int)(Math.random() * mapB[0].length);
         } while (mapB[0][r0].isEmpty());
-        c0ind = (int)(Math.random() * (mapB[0][r0].size()-1));
+        int c0ind = (int)(Math.random() * mapB[0][r0].size());
         c0 = (Integer)mapB[0][r0].get(c0ind);
-      } while ((!b.isEmpty(0, r0) && b.isBlockedOnSides(0, r0, c0)) || b._map.get(0)[r0][c0] != null);
+        println("trying an option (tile 0)");
+      } while ((!b.isEmpty(0, r0) && !b.isBlockedOneSide(0, r0, c0)) || b._map.get(0)[r0][c0] != null);
 
       do {
         do {
           r1 = (int)(Math.random() * mapB[1].length);
         } while (mapB[1][r1].isEmpty());
-        c1ind = (int)(Math.random() * (mapB[1][r1].size()-1));
+        int c1ind = (int)(Math.random() * mapB[1][r1].size());
         c1 = (Integer)mapB[1][r1].get(c1ind);
-      } while ((!b.isEmpty(1, r1) && b.isBlockedOnSides(1, r1, c1)) 
-      || b._map.get(1)[r1][c1] != null || !b.isSupported(r1,c1));
+        println("trying an option (tile 1)");
+      } while ((!b.isEmpty(1, r1) && !b.isBlockedOneSide(1, r1, c1)) || b._map.get(1)[r1][c1] != null || !b.isSupported(r1,c1));
+
       b.addTileAt(new TileNode(b._top, r0, c0, 0, picInd + ".png"), r0, c0, 0);
-      b.addTileTopLayer(r1, c1, picInd + ".png"); 
-      mapB[0][r0].remove(c0ind);
+      b.addTileTopLayer(r1, c1, picInd + ".png");
+      println("added tiles"); 
+      mapB[0][r0].remove(new Integer(c0));
       println("r1 " + r1 + " c1 " + c1);
-      mapB[1][r1].remove(c1ind);
+      mapB[1][r1].remove(new Integer(c1));
       l1count--;
-    }
+    }//*/
   }
 
   private void initMapA() {

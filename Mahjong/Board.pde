@@ -120,6 +120,23 @@ class Board {
     return blockedOnLeft && blockedOnRight;
   }
 
+  public boolean isBlockedOneSide(int layer, int row, int col) {
+    TileNode[][] layerTiles = _map.get(layer);
+    boolean blockedOnLeft = false;
+    boolean blockedOnRight = false;
+    for (int r = row; r < row + TileNode.gridHeight; r++) {
+      // Does not test for out-of-bounds errors on column because no tiles should contact the edges
+      if (col-1<0) { return true; }
+      if (layerTiles[r][col - 1] != null) {
+        blockedOnLeft = true;
+      }
+      if (layerTiles[r][col + TileNode.gridWidth] != null) {
+        blockedOnRight = true;
+      }
+    }
+    return blockedOnLeft || blockedOnRight;
+  }
+
   // Add a vertically oriented TileNode at grid position row tlRow, column tlCol
   private void addTileAt(TileNode node, int tlRow, int tlCol, int mapLayer) {
     for (int i = tlRow; i < tlRow + TileNode.gridHeight && i < mapGridRows; i++) {
